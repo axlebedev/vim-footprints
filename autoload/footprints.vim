@@ -1,5 +1,5 @@
 let s:historyDepth = 10
-let s:bgColor = '#AA3333'
+let s:bgColor = '#4f422b'
 
 " =====
 " Part: get list of linenumbers that should be highlighted
