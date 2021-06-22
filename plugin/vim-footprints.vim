@@ -1,9 +1,7 @@
 autocmd VimEnter * call footprints#FootprintsInit()
+
 autocmd TextChanged * call footprints#Footprints()
 autocmd BufEnter * call footprints#Footprints()
-autocmd WinEnter * call footprints#Footprints() 
-autocmd WinNew * call footprints#Footprints() 
-autocmd TabNew * call footprints#Footprints() 
 autocmd InsertLeave * call footprints#Footprints() 
 autocmd TextChangedI * call footprints#Footprints() 
 autocmd TextChangedP * call footprints#Footprints() 
