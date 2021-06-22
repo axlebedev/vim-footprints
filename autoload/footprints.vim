@@ -70,12 +70,10 @@ function! s:GetNormalBackgroundColor() abort
 endfunction
 
 function! s:DeclareHighlights(accentColorStr, totalSteps) abort
-    echom 's:DeclareHighlights'
     silent let normalBg = s:GetNormalBackgroundColor()
     let i = 0
     while i < a:totalSteps
         let color = s:GetIntermediateColor(a:accentColorStr, normalBg, i, a:totalSteps)
-        echom 'highlight FootstepsStep'.i.' guibg='.color
         silent execute 'highlight FootstepsStep'.i.' guibg='.color
         let i = i + 1
     endwhile
@@ -85,15 +83,15 @@ endfunction
 " Part: set highlight groups to lines of code
 
 function! s:UpdateMatches(linenumbersList) abort
-    echom 'UpdateMatches'.expand('%')
-    echom a:linenumbersList
-    call clearmatches()
+    silent! call clearmatches()
 
     let i = 0 
     let maxI = min([len(a:linenumbersList), s:historyDepth]) 
     while i < maxI
         let lineNr = a:linenumbersList[i]
-        call matchadd('FootstepsStep'.(maxI - i - 1), '\%'.lineNr.'l')
+        let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
+
+        silent! call matchadd(highlightGroupName, '\%'.lineNr.'l')
         let i = i + 1
     endwhile
 endfunction
