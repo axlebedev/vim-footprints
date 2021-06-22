@@ -82,12 +82,15 @@ endfunction
 " =====
 " Part: set highlight groups to lines of code
 
-let s:matchIds = []
+let s:matchIds = {}
 function! s:UpdateMatches(linenumbersList) abort
-    for id in s:matchIds
-        call matchdelete(id)
-    endfor
-    let s:matchIds = []
+    let bufn = bufnr()
+    if has_key(s:matchIds, bufn)
+        for id in s:matchIds[bufn]
+            silent! call matchdelete(id)
+        endfor
+    endif
+    let s:matchIds[bufn] = []
 
     let i = 0 
     let maxI = min([len(a:linenumbersList), s:historyDepth]) 
@@ -96,7 +99,7 @@ function! s:UpdateMatches(linenumbersList) abort
         let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
 
         let id = matchadd(highlightGroupName, '\%'.lineNr.'l')
-        call add(s:matchIds, id)
+        call add(s:matchIds[bufn], id)
         let i = i + 1
     endwhile
 endfunction
@@ -109,5 +112,8 @@ function! footprints#FootprintsInit() abort
 endfunction
 
 function! footprints#Footprints() abort
+    if !&modifiable
+        return
+    endif
     call s:UpdateMatches(s:GetChangesLinenumbersList(s:historyDepth))
 endfunction
