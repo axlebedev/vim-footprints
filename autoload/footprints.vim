@@ -1,5 +1,6 @@
 let s:historyDepth = 10
 let s:bgColor = '#4f422b'
+let s:factor = 0.1
 
 " =====
 " Part: get list of linenumbers that should be highlighted
@@ -36,20 +37,28 @@ function! s:DecToHex(value) abort
     return printf('%x', a:value)
 endfunction
 
+function! s:GetIntermediateValue(accentColor, baseColor, step, factor) abort
+    if a:step <= 0
+        return a:accentColor
+    endif
+    let prevStepColor = s:GetIntermediateValue(a:accentColor, a:baseColor, a:step - 1, a:factor)
+    return prevStepColor + (a:baseColor - prevStepColor) * a:factor
+endfunction
+
 function! s:GetIntermediateColor(accentColorStr, normalColorStr, step, totalSteps)
     let stepMult = (a:step * 1.0) / a:totalSteps " *1.0 - convert to float
 
     let accentRed = str2nr(a:accentColorStr[1:2], 16)
     let normalRed = str2nr(a:normalColorStr[1:2], 16)
-    let intermediateRed = float2nr(round(accentRed + (normalRed - accentRed) * stepMult))
+    let intermediateRed = float2nr(round(s:GetIntermediateValue(accentRed, normalRed, a:step, s:factor)))
 
     let accentGreen = str2nr(a:accentColorStr[3:4], 16)
     let normalGreen = str2nr(a:normalColorStr[3:4], 16)
-    let intermediateGreen = float2nr(round(accentGreen + (normalGreen - accentGreen) * stepMult))
+    let intermediateGreen = float2nr(round(s:GetIntermediateValue(accentGreen, normalGreen, a:step, s:factor)))
 
     let accentBlue = str2nr(a:accentColorStr[5:6], 16)
     let normalBlue = str2nr(a:normalColorStr[5:6], 16)
-    let intermediateBlue = float2nr(round(accentBlue + (normalBlue - accentBlue) * stepMult))
+    let intermediateBlue = float2nr(round(s:GetIntermediateValue(accentBlue, normalBlue, a:step, s:factor)))
 
     return '#'.s:DecToHex(intermediateRed).s:DecToHex(intermediateGreen).s:DecToHex(intermediateBlue)
 endfunction
@@ -90,7 +99,14 @@ function! s:UpdateMatches(linenumbersList) abort
             silent! call matchdelete(id)
         endfor
     endif
-    let s:matchIds[bufn] = []
+    let hasKey = has_key(s:matchIds, bufn)
+    if hasKey && len(s:matchIds[bufn]) > s:historyDepth * 2
+        let s:matchIds[bufn] = s:matchIds[bufn][-s:historyDepth:]
+    endif
+
+    if !hasKey
+        let s:matchIds[bufn] = []
+    endif
 
     let i = 0 
     let maxI = min([len(a:linenumbersList), s:historyDepth]) 
