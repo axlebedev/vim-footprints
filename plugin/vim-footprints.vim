@@ -1,3 +1,8 @@
+let g:historyDepth = 10
+" Cold: 38403b
+" Warm: 412d1e
+let g:bgColor = '#412D1E'
+
 autocmd VimEnter * call footprints#FootprintsInit()
 
 autocmd TextChanged * call footprints#Footprints()

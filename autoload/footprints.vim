@@ -1,6 +1,5 @@
-let s:historyDepth = 10
-let s:bgColor = '#4f422b'
 let s:factor = 0.1
+let s:isLaunched = 0
 
 " =====
 " Part: get list of linenumbers that should be highlighted
@@ -19,15 +18,41 @@ endfunction
 function! s:GetChangesLinenumbersList(historyDepth) abort
     silent let changesList = s:GetChangesList()
     let lines = split(changesList, "\n")
-    let lines = lines[-(min([a:historyDepth, len(lines)]))+1:] " remove first line with headers
+    let lines = lines[1:] " remove first line with headers
+    let lines = lines[:-2] " remove last line with prompt
+    let lines = lines[-a:historyDepth:] " get only needed
     let lineNumbers = []
     for line in lines
         let lineSpl = split(line)
-        if (len(lineSpl) >= 3)
-            call add(lineNumbers, lineSpl[1])
-        endif
+        call add(lineNumbers, lineSpl[1])
     endfor
     return lineNumbers
+endfunction
+
+" =====
+" Part: Get Background Color
+
+function! s:GetNormalBackgroundColor() abort
+    let commandResult = ''
+    redir => commandResult
+    highlight Normal
+    redir END
+    let normalColorsArray = split(commandResult)
+    let guibg = 0
+    for item in normalColorsArray
+        if item =~? 'guibg='
+            let guibg = item[match(item, '=')+1:]
+        endif
+    endfor
+    return guibg
+endfunction
+
+function! s:GetAccentBackgroundColor() abort
+    if (exists('g:bgColor'))
+        return g:bgColor
+    endif
+
+    return s:GetIntermediateColor('#FFFFFF', s:GetNormalBackgroundColor(), 20, 20)
 endfunction
 
 " =====
@@ -46,8 +71,6 @@ function! s:GetIntermediateValue(accentColor, baseColor, step, factor) abort
 endfunction
 
 function! s:GetIntermediateColor(accentColorStr, normalColorStr, step, totalSteps)
-    let stepMult = (a:step * 1.0) / a:totalSteps " *1.0 - convert to float
-
     let accentRed = str2nr(a:accentColorStr[1:2], 16)
     let normalRed = str2nr(a:normalColorStr[1:2], 16)
     let intermediateRed = float2nr(round(s:GetIntermediateValue(accentRed, normalRed, a:step, s:factor)))
@@ -61,21 +84,6 @@ function! s:GetIntermediateColor(accentColorStr, normalColorStr, step, totalStep
     let intermediateBlue = float2nr(round(s:GetIntermediateValue(accentBlue, normalBlue, a:step, s:factor)))
 
     return '#'.s:DecToHex(intermediateRed).s:DecToHex(intermediateGreen).s:DecToHex(intermediateBlue)
-endfunction
-
-function! s:GetNormalBackgroundColor() abort
-    let commandResult = ''
-    redir => commandResult
-    highlight Normal
-    redir END
-    let normalColorsArray = split(commandResult)
-    let guibg = 0
-    for item in normalColorsArray
-        if item =~? 'guibg='
-            let guibg = item[match(item, '=')+1:]
-        endif
-    endfor
-    return guibg
 endfunction
 
 function! s:DeclareHighlights(accentColorStr, totalSteps) abort
@@ -92,7 +100,7 @@ endfunction
 " Part: set highlight groups to lines of code
 
 let s:matchIds = {}
-function! s:UpdateMatches(linenumbersList) abort
+function! s:UpdateMatches(linenumbersList, historyDepth) abort
     let bufn = bufnr()
     if has_key(s:matchIds, bufn)
         for id in s:matchIds[bufn]
@@ -100,8 +108,8 @@ function! s:UpdateMatches(linenumbersList) abort
         endfor
     endif
     let hasKey = has_key(s:matchIds, bufn)
-    if hasKey && len(s:matchIds[bufn]) > s:historyDepth * 2
-        let s:matchIds[bufn] = s:matchIds[bufn][-s:historyDepth:]
+    if hasKey && len(s:matchIds[bufn]) > a:historyDepth * 2
+        let s:matchIds[bufn] = s:matchIds[bufn][-a:historyDepth:]
     endif
 
     if !hasKey
@@ -109,7 +117,7 @@ function! s:UpdateMatches(linenumbersList) abort
     endif
 
     let i = 0 
-    let maxI = min([len(a:linenumbersList), s:historyDepth]) 
+    let maxI = min([len(a:linenumbersList), a:historyDepth]) 
     while i < maxI
         let lineNr = a:linenumbersList[i]
         let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
@@ -124,12 +132,13 @@ endfunction
 " int main
 
 function! footprints#FootprintsInit() abort
-    call s:DeclareHighlights(s:bgColor, s:historyDepth)
+    call s:DeclareHighlights(s:GetAccentBackgroundColor(), g:historyDepth)
+    let s:isLaunched = 1
 endfunction
 
 function! footprints#Footprints() abort
-    if !&modifiable
+    if !&modifiable || !s:isLaunched
         return
     endif
-    call s:UpdateMatches(s:GetChangesLinenumbersList(s:historyDepth))
+    call s:UpdateMatches(s:GetChangesLinenumbersList(g:historyDepth), g:historyDepth)
 endfunction
