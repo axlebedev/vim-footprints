@@ -103,6 +103,8 @@ let s:matchIds = {}
 function! s:UpdateMatches(linenumbersList, historyDepth) abort
     let bufn = bufnr()
     if has_key(s:matchIds, bufn)
+" echom 'ids='
+" echom s:matchIds[bufn]
         for id in s:matchIds[bufn]
             silent! call matchdelete(id)
         endfor
@@ -122,7 +124,7 @@ function! s:UpdateMatches(linenumbersList, historyDepth) abort
         let lineNr = a:linenumbersList[i]
         let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
 
-        let id = matchadd(highlightGroupName, '\%'.lineNr.'l')
+        let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -1)
         call add(s:matchIds[bufn], id)
         let i = i + 1
     endwhile
