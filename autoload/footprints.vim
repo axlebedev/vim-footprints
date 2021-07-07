@@ -20,7 +20,9 @@ function! s:GetChangesLinenumbersList(historyDepth) abort
     let lines = split(changesList, "\n")
     let lines = lines[1:] " remove first line with headers
     let lines = lines[:-2] " remove last line with prompt
-    let lines = lines[-a:historyDepth:] " get only needed
+    if (len(lines) > a:historyDepth)
+        let lines = lines[-a:historyDepth:] " get only needed
+    endif
     let lineNumbers = []
     for line in lines
         let lineSpl = split(line)
