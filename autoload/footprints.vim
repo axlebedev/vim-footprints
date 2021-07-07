@@ -93,14 +93,23 @@ endfunction
 " =====
 " Part: set highlight groups to lines of code
 
+let s:leavedBufWinnr = { 'winn': -1, 'bufn': -1 }
 let s:matchIds = {}
-function! s:UpdateMatches(linenumbersList, historyDepth) abort
-    let bufn = bufnr()
-    if has_key(s:matchIds, bufn)
-        for id in s:matchIds[bufn]
+function! s:ClearHighlights(bufn) abort
+    if has_key(s:matchIds, a:bufn)
+        for id in s:matchIds[a:bufn]
             silent! call matchdelete(id)
         endfor
     endif
+endfunction
+
+function! s:UpdateMatches(linenumbersList, historyDepth) abort
+    if (s:leavedBufWinnr.winn == winnr())
+        call s:ClearHighlights(s:leavedBufWinnr.bufn)
+    endif
+
+    let bufn = bufnr()
+    call s:ClearHighlights(bufn)
     let hasKey = has_key(s:matchIds, bufn)
     if hasKey && len(s:matchIds[bufn]) > a:historyDepth * 2
         let s:matchIds[bufn] = s:matchIds[bufn][-a:historyDepth:]
@@ -135,4 +144,8 @@ function! footprints#Footprints() abort
         return
     endif
     call s:UpdateMatches(s:GetChangesLinenumbersList(g:historyDepth), g:historyDepth)
+endfunction
+
+function! footprints#BufLeaved() abort
+    let s:leavedBufWinnr = { 'winn': winnr(), 'bufn': bufnr() }
 endfunction
