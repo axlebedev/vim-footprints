@@ -95,8 +95,6 @@ let s:matchIds = {}
 function! s:UpdateMatches(linenumbersList, historyDepth) abort
     let bufn = bufnr()
     if has_key(s:matchIds, bufn)
-" echom 'ids='
-" echom s:matchIds[bufn]
         for id in s:matchIds[bufn]
             silent! call matchdelete(id)
         endfor
