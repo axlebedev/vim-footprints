@@ -47,14 +47,6 @@ function! s:GetNormalBackgroundColor() abort
     return guibg
 endfunction
 
-function! s:GetAccentBackgroundColor() abort
-    if (exists('g:bgColor'))
-        return g:bgColor
-    endif
-
-    return s:GetIntermediateColor('#FFFFFF', s:GetNormalBackgroundColor(), 20, 20)
-endfunction
-
 " =====
 " Part: Declare 'FootprintsStep0', 'FootprintsStep1'...
 
@@ -134,7 +126,7 @@ endfunction
 " int main
 
 function! footprints#FootprintsInit() abort
-    call s:DeclareHighlights(s:GetAccentBackgroundColor(), g:historyDepth)
+    call s:DeclareHighlights(g:bgColor, g:historyDepth)
     let s:isLaunched = 1
 endfunction
 
