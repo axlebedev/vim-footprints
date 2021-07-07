@@ -8,6 +8,8 @@ let g:bgColor = '#6b4930'
 
 autocmd VimEnter * call footprints#FootprintsInit()
 
+autocmd FileType * call footprints#OnFiletypeSet()
+
 autocmd BufLeave * call footprints#BufLeaved()
 
 autocmd TextChanged * call footprints#Footprints()

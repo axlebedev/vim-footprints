@@ -149,3 +149,9 @@ endfunction
 function! footprints#BufLeaved() abort
     let s:leavedBufWinnr = { 'winn': winnr(), 'bufn': bufnr() }
 endfunction
+
+function footprints#OnFiletypeSet() abort
+    if index(g:excludeFiletypes, &filetype) > -1
+        call s:ClearHighlights(bufnr())
+    endif
+endfunction
