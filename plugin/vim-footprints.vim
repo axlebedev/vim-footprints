@@ -1,4 +1,4 @@
-let g:excludeFiletypes = ['magit']
+let g:excludeFiletypes = ['magit', 'nerdtree']
 
 let g:historyDepth = 20
 
