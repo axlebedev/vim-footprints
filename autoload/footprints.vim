@@ -139,15 +139,15 @@ endfunction
 " main
 
 function! footprints#FootprintsInit() abort
-    call s:DeclareHighlights(g:bgColor, g:historyDepth)
+    call s:DeclareHighlights(g:footprintsColor, g:footprintsHistoryDepth)
     let s:isLaunched = 1
 endfunction
 
 function! footprints#Footprints() abort
-    if !&modifiable || !s:isLaunched || index(g:excludeFiletypes, &filetype) > -1
+    if !&modifiable || !s:isLaunched || index(g:footprintsExcludeFiletypes, &filetype) > -1
         return
     endif
-    call s:UpdateMatches(s:GetChangesLinenumbersList(g:historyDepth), g:historyDepth)
+    call s:UpdateMatches(s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
 function! footprints#BufLeaved() abort
@@ -155,7 +155,7 @@ function! footprints#BufLeaved() abort
 endfunction
 
 function footprints#OnFiletypeSet() abort
-    if index(g:excludeFiletypes, &filetype) > -1
+    if index(g:footprintsExcludeFiletypes, &filetype) > -1
         call s:ClearHighlights(bufnr())
     endif
 endfunction

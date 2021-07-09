@@ -1,10 +1,10 @@
-let g:excludeFiletypes = ['magit', 'nerdtree']
+let g:footprintsExcludeFiletypes = ['magit', 'nerdtree']
 
-let g:historyDepth = 20
+let g:footprintsHistoryDepth = 20
 
 " Cold: 38403b
 " Warm: 412d1e
-let g:bgColor = '#6b4930'
+let g:footprintsColor = '#6b4930'
 
 autocmd VimEnter * call footprints#FootprintsInit()
 
