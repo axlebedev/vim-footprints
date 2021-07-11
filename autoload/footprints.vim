@@ -1,8 +1,8 @@
 let s:factor = 0.1
 let s:isLaunched = 0
 
-" =====
-" Part: get list of linenumbers that should be highlighted
+" {{{
+" get list of linenumbers that should be highlighted
 
 function! s:GetChangesList() abort
     let commandResult = ''
@@ -30,9 +30,10 @@ function! s:GetChangesLinenumbersList(historyDepth) abort
     endfor
     return lineNumbers
 endfunction
+" }}}
 
-" =====
-" Part: Get Background Color
+" {{{
+" Get Background Color
 
 function! s:GetNormalBackgroundColor() abort
     let commandResult = ''
@@ -48,9 +49,10 @@ function! s:GetNormalBackgroundColor() abort
     endfor
     return guibg
 endfunction
+" }}}
 
-" =====
-" Part: Declare 'FootprintsStep0', 'FootprintsStep1'...
+" {{{
+" Declare 'FootprintsStep0', 'FootprintsStep1'...
 
 function! s:DecToHex(value) abort
     return printf('%x', a:value)
@@ -89,9 +91,10 @@ function! s:DeclareHighlights(accentColorStr, totalSteps) abort
         let i = i + 1
     endwhile
 endfunction
+" }}}
 
-" =====
-" Part: set highlight groups to lines of code
+" {{{
+" set highlight groups to lines of code
 
 let s:leavedBufWinnr = { 'winn': -1, 'bufn': -1 }
 let s:matchIds = {}
@@ -130,9 +133,10 @@ function! s:UpdateMatches(linenumbersList, historyDepth) abort
         let i = i + 1
     endwhile
 endfunction
+" }}}
 
-" =====
-" int main
+" {{{
+" main
 
 function! footprints#FootprintsInit() abort
     call s:DeclareHighlights(g:bgColor, g:historyDepth)
@@ -155,3 +159,4 @@ function footprints#OnFiletypeSet() abort
         call s:ClearHighlights(bufnr())
     endif
 endfunction
+" }}}
