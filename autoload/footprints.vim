@@ -1,5 +1,6 @@
 let s:factor = 0.1
 let s:isLaunched = 0
+let s:matchIds = {}
 
 " {{{
 " get list of linenumbers that should be highlighted
@@ -96,8 +97,6 @@ endfunction
 " {{{
 " set highlight groups to lines of code
 
-let s:leavedBufWinnr = { 'winn': -1, 'bufn': -1 }
-let s:matchIds = {}
 function! s:ClearHighlights(bufn) abort
     if has_key(s:matchIds, a:bufn)
         for id in s:matchIds[a:bufn]
@@ -106,11 +105,15 @@ function! s:ClearHighlights(bufn) abort
     endif
 endfunction
 
-function! s:UpdateMatches(linenumbersList, historyDepth) abort
-    if (s:leavedBufWinnr.winn == winnr())
-        call s:ClearHighlights(s:leavedBufWinnr.bufn)
-    endif
+function! s:ClearHighlightsInHiddenBuffers() abort
+    for bufn in keys(s:matchIds)
+        if bufwinnr(bufn) == -1
+            call s:ClearHighlights(bufn)
+        endif
+    endfor
+endfunction
 
+function! s:UpdateMatches(linenumbersList, historyDepth) abort
     let bufn = bufnr()
     call s:ClearHighlights(bufn)
     let hasKey = has_key(s:matchIds, bufn)
@@ -150,13 +153,11 @@ function! footprints#Footprints() abort
     call s:UpdateMatches(s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
-function! footprints#BufLeaved() abort
-    let s:leavedBufWinnr = { 'winn': winnr(), 'bufn': bufnr() }
+function! footprints#OnBufEnter() abort
+    call s:ClearHighlightsInHiddenBuffers()
 endfunction
 
 function footprints#OnFiletypeSet() abort
-    if index(g:footprintsExcludeFiletypes, &filetype) > -1
-        call s:ClearHighlights(bufnr())
-    endif
+    call s:ClearHighlightsInHiddenBuffers()
 endfunction
 " }}}
