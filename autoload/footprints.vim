@@ -144,7 +144,7 @@ function! footprints#FootprintsInit() abort
 endfunction
 
 function! footprints#Footprints() abort
-    if !&modifiable || !s:isLaunched || index(g:footprintsExcludeFiletypes, &filetype) > -1
+    if !&modifiable || !s:isLaunched || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
         return
     endif
     call s:UpdateMatches(s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
