@@ -155,9 +155,11 @@ endfunction
 
 function! footprints#OnBufEnter() abort
     call s:ClearHighlightsInHiddenBuffers()
+    call footprints#Footprints()
 endfunction
 
 function footprints#OnFiletypeSet() abort
     call s:ClearHighlightsInHiddenBuffers()
+    call footprints#Footprints()
 endfunction
 " }}}
