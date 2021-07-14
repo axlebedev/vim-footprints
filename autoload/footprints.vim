@@ -103,6 +103,7 @@ function! s:ClearHighlights(bufn) abort
             silent! call matchdelete(id)
         endfor
     endif
+    let s:matchIds[a:bufn] = []
 endfunction
 
 function! s:ClearHighlightsInHiddenBuffers() abort
@@ -116,14 +117,6 @@ endfunction
 function! s:UpdateMatches(linenumbersList, historyDepth) abort
     let bufn = bufnr()
     call s:ClearHighlights(bufn)
-    let hasKey = has_key(s:matchIds, bufn)
-    if hasKey && len(s:matchIds[bufn]) > a:historyDepth * 2
-        let s:matchIds[bufn] = s:matchIds[bufn][-a:historyDepth:]
-    endif
-
-    if !hasKey
-        let s:matchIds[bufn] = []
-    endif
 
     let i = 0 
     let maxI = min([len(a:linenumbersList), a:historyDepth]) 
