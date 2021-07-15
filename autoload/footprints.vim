@@ -160,7 +160,7 @@ function! s:UpdateMatchesOnMove(linenumbersList, historyDepth) abort
         let lineNr = a:linenumbersList[i]
         if lineNr != currentLine && !s:matchIds[bufn][i]
             let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
-            let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -100009)
+            let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -1)
             let s:matchIds[bufn][i] = id
         elseif lineNr == currentLine && s:matchIds[bufn][i]
             call matchdelete(s:matchIds[bufn][i])
