@@ -16,7 +16,8 @@ function! s:GetChangesList() abort
     return commandResult
 endfunction
 
-function! s:GetChangesLinenumbersList(historyDepth) abort
+let s:changesListStore = 0
+function! s:GetChangesLinenumbersListInner(historyDepth) abort
     silent let changesList = s:GetChangesList()
     let lines = split(changesList, "\n")
     let lines = lines[1:] " remove first line with headers
@@ -30,6 +31,18 @@ function! s:GetChangesLinenumbersList(historyDepth) abort
         call add(lineNumbers, lineSpl[1])
     endfor
     return lineNumbers
+endfunction
+
+function! s:GetChangesLinenumbersList(historyDepth) abort
+    if s:changesListStore
+        return s:changesListStore
+    endif
+    return s:GetChangesLinenumbersListInner(a:historyDepth)
+endfunction
+
+function! s:ClearChangesList() abort
+    let s:changesListStore = 0
+    return 1
 endfunction
 " }}}
 
@@ -142,7 +155,7 @@ function! s:UpdateMatchesOnMove(linenumbersList, historyDepth) abort
     let currentLine = line('.')
 
     let i = 0 
-    let maxI = min([len(a:linenumbersList), a:historyDepth]) 
+    let maxI = min([len(a:linenumbersList), a:historyDepth, len(s:matchIds[bufn])]) 
     while i < maxI
         let lineNr = a:linenumbersList[i]
         if lineNr != currentLine && !s:matchIds[bufn][i]
@@ -170,6 +183,7 @@ function! footprints#Footprints() abort
     if !&modifiable || !s:isLaunched || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
         return
     endif
+    call s:ClearChangesList()
     call s:UpdateMatches(s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
