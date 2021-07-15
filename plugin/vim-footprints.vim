@@ -19,7 +19,7 @@ autocmd BufEnter * call footprints#OnBufEnter()
 " autocmd BufNew * call footprints#OnBufEnter()
 " autocmd BufCreate * call footprints#OnBufEnter()
 
-" autocmd CursorMoved * call footprints#OnCursorMove()
+autocmd CursorMoved * call footprints#OnCursorMove()
 
 autocmd TextChanged * call footprints#Footprints()
 autocmd TextChangedI * call footprints#Footprints() 

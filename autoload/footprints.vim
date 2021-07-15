@@ -116,16 +116,43 @@ endfunction
 
 function! s:UpdateMatches(linenumbersList, historyDepth) abort
     let bufn = bufnr()
+    let currentLine = line('.')
     call s:ClearHighlights(bufn)
 
     let i = 0 
     let maxI = min([len(a:linenumbersList), a:historyDepth]) 
     while i < maxI
         let lineNr = a:linenumbersList[i]
-        let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
+        if lineNr != currentLine
+            let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
+            let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -100009)
+            call add(s:matchIds[bufn], id)
+        else 
+            call add(s:matchIds[bufn], 0)
+        endif
+        let i = i + 1
+    endwhile
+endfunction
 
-        let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -1)
-        call add(s:matchIds[bufn], id)
+function! s:UpdateMatchesOnMove(linenumbersList, historyDepth) abort
+    let bufn = bufnr()
+    if !has_key(s:matchIds, bufn) || !len(s:matchIds[bufn])
+        return
+    endif
+    let currentLine = line('.')
+
+    let i = 0 
+    let maxI = min([len(a:linenumbersList), a:historyDepth]) 
+    while i < maxI
+        let lineNr = a:linenumbersList[i]
+        if lineNr != currentLine && !s:matchIds[bufn][i]
+            let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
+            let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -100009)
+            let s:matchIds[bufn][i] = id
+        elseif lineNr == currentLine && s:matchIds[bufn][i]
+            call matchdelete(s:matchIds[bufn][i])
+            let s:matchIds[bufn][i] = 0
+        endif
         let i = i + 1
     endwhile
 endfunction
@@ -155,4 +182,8 @@ function footprints#OnFiletypeSet() abort
     call s:ClearHighlightsInHiddenBuffers()
     call footprints#Footprints()
 endfunction
-" }}}
+"
+function! footprints#OnCursorMove() abort
+    call s:UpdateMatchesOnMove(s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+endfunction
+
