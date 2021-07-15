@@ -198,6 +198,9 @@ function footprints#OnFiletypeSet() abort
 endfunction
 "
 function! footprints#OnCursorMove() abort
+    if !s:isLaunched
+        return
+    endif
     call s:UpdateMatchesOnMove(s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
