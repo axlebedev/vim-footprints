@@ -1,4 +1,4 @@
-let g:footprintsExcludeFiletypes = ['magit', 'nerdtree']
+let g:footprintsExcludeFiletypes = ['magit', 'nerdtree', 'diff']
 
 let g:footprintsHistoryDepth = 20
 
