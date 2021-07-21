@@ -1,3 +1,8 @@
+if exists("g:isLoadedFootprints") || &compatible || v:version < 700
+    finish
+endif
+let g:isLoadedFootprints = 1
+
 let g:footprintsExcludeFiletypes = ['magit', 'nerdtree', 'diff']
 
 let g:footprintsHistoryDepth = 20
