@@ -28,3 +28,6 @@ autocmd BufEnter * call footprints#Footprints()
 autocmd BufLeave * call footprints#Footprints()
 " autocmd InsertLeave * call footprints#Footprints() 
 " autocmd TextYankPost * call footprints#Footprints() 
+
+command FootprintsDisable call footprints#Disable()
+command FootprintsEnable call footprints#Enable()
