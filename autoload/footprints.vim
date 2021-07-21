@@ -1,3 +1,9 @@
+let g:footprintsHistoryDepth = get(g:, 'footprintsHistoryDepth', 20)
+let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit', 'nerdtree', 'diff'])
+" Cold: 38403b
+" Warm: 412d1e
+let g:footprintsColor = get(g:, 'footprintsColor', '#6b4930')
+
 let s:factor = 0.1
 let s:matchIds = {}
 let s:isEnabled = 0

@@ -3,14 +3,6 @@ if exists("g:isLoadedFootprints") || &compatible || v:version < 700
 endif
 let g:isLoadedFootprints = 1
 
-let g:footprintsExcludeFiletypes = ['magit', 'nerdtree', 'diff']
-
-let g:footprintsHistoryDepth = 20
-
-" Cold: 38403b
-" Warm: 412d1e
-let g:footprintsColor = '#6b4930'
-
 autocmd VimEnter * call footprints#FootprintsInit()
 
 autocmd FileType * call footprints#OnFiletypeSet()
