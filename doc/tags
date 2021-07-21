@@ -1,0 +1,11 @@
+footprints	vim-footprints.txt	/*footprints*
+vim-footprints-contents	vim-footprints.txt	/*fqootprints*
+vim-footprints-intro	vim-footprints.txt	/*footprints*
+vim-footprints-usage	vim-footprints.txt	/*footprints*
+vim-footprints-configuration	vim-footprints.txt	/*footprints*
+vim-footprints-contributions	vim-footprints.txt	/*footprints*
+vim-footprints-credits	vim-footprints.txt	/*footprints*
+vim-footprints-license	vim-footprints.txt	/*footprints*
+g:footprintsColor	vim-footprints.txt	/*footprints*
+g:footprintsHistoryDepth	vim-footprints.txt	/*footprints*
+g:footprintsExcludeFiletypes	vim-footprints.txt	/*footprints*

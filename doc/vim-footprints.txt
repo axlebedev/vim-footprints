@@ -1,0 +1,62 @@
+*vim-footprints.txt*
+
+*vim-footprints*     :changes visualisation on the fly
+
+==============================================================================
+CONTENTS                                         *vim-footprints-contents*
+
+    Introduction .....................................|vim-footprints-intro|
+    Usage ............................................|vim-footprints-usage|
+    Configuration ............................|vim-footprints-configuration|
+    Contributing .............................|vim-footprints-contributions|
+    Credits ........................................|vim-footprints-credits|
+    License ........................................|vim-footprints-license|
+
+==============================================================================
+INTRODUCTION                                        *vim-footprints-intro*
+
+Vim-footprints highlights latest changes in current buffer.
+
+==============================================================================
+USAGE                                               *vim-footprints-usage*
+
+Change any text, and that line will be highlighted.
+The older change - the dimmer highlight.
+
+==============================================================================
+CONFIGURATION                               *vim-footprints-configuration*
+
+g:footprintsColor                                      *g:footprintsColor*
+  Type: |String|
+  Default: '#6b4930'
+  
+  Hex number. Color of the latest change highlight
+
+g:footprintsHistoryDepth                        *g:footprintsHistoryDepth*
+  Type: |Number|
+  Default: `20`
+
+  How many lines should be highlighted
+
+g:footprintsExcludeFiletypes                 *g:footprintsExcludeFiletypes*
+  Type: |List|
+  Default: `['magit', 'nerdtree', 'diff']`
+
+  Which filetypes should not be processed by this plugin
+
+==============================================================================
+CONTRIBUTIONS                               *vim-footprints-contributions*
+
+Contributions and pull requests are welcome.
+
+==============================================================================
+CREDITS                                           *vim-footprints-credits*
+
+Copyright © 2021 Alex Lebedev. <alex@alexlebe.dev>
+
+==============================================================================
+LICENSE                                           *vim-footprints-license*
+
+MIT License.
+
+ vim:tw=79:ts=8:ft=help:norl:
