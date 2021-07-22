@@ -8,6 +8,8 @@ let s:factor = 0.1
 let s:matchIds = {}
 let s:isEnabled = 0
 
+let s:groupName = 'FootstepsStep'
+
 " {{{
 " get list of linenumbers that should be highlighted
 
@@ -107,7 +109,7 @@ function! s:DeclareHighlights(accentColorStr, totalSteps) abort
     let i = 0
     while i < a:totalSteps
         let color = s:GetIntermediateColor(a:accentColorStr, normalBg, i, a:totalSteps)
-        silent execute 'highlight FootstepsStep'.i.' guibg='.color
+        silent execute 'highlight '.s:groupName.i.' guibg='.color
         let i = i + 1
     endwhile
 endfunction
@@ -149,7 +151,7 @@ function! s:UpdateMatches(bufnr, linenumbersList, historyDepth) abort
     while i < maxI
         let lineNr = a:linenumbersList[i]
         if lineNr != currentLine
-            let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
+            let highlightGroupName = s:groupName.(maxI - i - 1)
             let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -100009)
             call add(s:matchIds[a:bufnr], id)
         else 
@@ -171,7 +173,7 @@ function! s:UpdateMatchesOnMove(linenumbersList, historyDepth) abort
     while i < maxI
         let lineNr = a:linenumbersList[i]
         if lineNr != currentLine && !s:matchIds[bufn][i]
-            let highlightGroupName = 'FootstepsStep'.(maxI - i - 1)
+            let highlightGroupName = s:groupName.(maxI - i - 1)
             let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -1)
             let s:matchIds[bufn][i] = id
         elseif lineNr == currentLine && s:matchIds[bufn][i]
