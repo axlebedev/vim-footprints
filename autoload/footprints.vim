@@ -1,10 +1,10 @@
 let g:footprintsHistoryDepth = get(g:, 'footprintsHistoryDepth', 20)
 let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit', 'nerdtree', 'diff'])
+let g:footprintsEasingFunction = get(g:, 'footprintsEasingFunction', 'easeInOut')
 " Cold: 38403b
 " Warm: 412d1e
 let g:footprintsColor = get(g:, 'footprintsColor', '#6b4930')
 
-let s:factor = 0.1
 let s:isEnabled = 0
 
 let s:groupName = 'FootstepsStep'
@@ -83,26 +83,25 @@ function! s:DecToHex(value) abort
     return printf('%x', a:value)
 endfunction
 
-function! s:GetIntermediateValue(accentColor, baseColor, step, factor) abort
+function! s:GetIntermediateValue(accentColor, baseColor, step, totalSteps) abort
     if a:step <= 0
         return a:accentColor
     endif
-    let prevStepColor = s:GetIntermediateValue(a:accentColor, a:baseColor, a:step - 1, a:factor)
-    return prevStepColor + (a:baseColor - prevStepColor) * a:factor
+    return a:baseColor + (a:accentColor - a:baseColor) * easings#EasingFunc(1 - (a:step + 0.0) / a:totalSteps)
 endfunction
 
 function! s:GetIntermediateColor(accentColorStr, normalColorStr, step, totalSteps)
     let accentRed = str2nr(a:accentColorStr[1:2], 16)
     let normalRed = str2nr(a:normalColorStr[1:2], 16)
-    let intermediateRed = float2nr(round(s:GetIntermediateValue(accentRed, normalRed, a:step, s:factor)))
+    let intermediateRed = float2nr(round(s:GetIntermediateValue(accentRed, normalRed, a:step, a:totalSteps)))
 
     let accentGreen = str2nr(a:accentColorStr[3:4], 16)
     let normalGreen = str2nr(a:normalColorStr[3:4], 16)
-    let intermediateGreen = float2nr(round(s:GetIntermediateValue(accentGreen, normalGreen, a:step, s:factor)))
+    let intermediateGreen = float2nr(round(s:GetIntermediateValue(accentGreen, normalGreen, a:step, a:totalSteps)))
 
     let accentBlue = str2nr(a:accentColorStr[5:6], 16)
     let normalBlue = str2nr(a:normalColorStr[5:6], 16)
-    let intermediateBlue = float2nr(round(s:GetIntermediateValue(accentBlue, normalBlue, a:step, s:factor)))
+    let intermediateBlue = float2nr(round(s:GetIntermediateValue(accentBlue, normalBlue, a:step, a:totalSteps)))
 
     return '#'.s:DecToHex(intermediateRed).s:DecToHex(intermediateGreen).s:DecToHex(intermediateBlue)
 endfunction
