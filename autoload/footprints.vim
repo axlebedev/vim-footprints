@@ -5,10 +5,13 @@ let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit
 let g:footprintsColor = get(g:, 'footprintsColor', '#6b4930')
 
 let s:factor = 0.1
-let s:matchIds = {}
 let s:isEnabled = 0
 
 let s:groupName = 'FootstepsStep'
+
+function! s:GetMatches() abort
+    return filter(getmatches(), { i, v -> l:v.group =~# s:groupName })
+endfunction
 
 " {{{
 " get list of linenumbers that should be highlighted
@@ -118,34 +121,18 @@ endfunction
 " {{{
 " set highlight groups to lines of code
 
-function! s:ClearHighlights(bufnr) abort
-    if has_key(s:matchIds, a:bufnr)
-        for id in s:matchIds[a:bufnr]
-            silent! call matchdelete(id)
-        endfor
-        unlet s:matchIds[a:bufnr]
-    endif
-endfunction
-
-function! s:ClearHighlightsInHiddenBuffers() abort
-    for bufn in keys(s:matchIds)
-        if bufwinnr(bufn) == -1
-            call s:ClearHighlights(bufn)
-        endif
-    endfor
+function! s:ClearHighlights() abort
+    call map(s:GetMatches(), { i, item -> matchdelete(item.id) })
 endfunction
 
 function! s:ClearHighlightsInAllBuffers() abort
-    for bufn in keys(s:matchIds)
-        call s:ClearHighlights(bufn)
-    endfor
+    windo call map(s:GetMatches(), matchdelete(v:val.id))
 endfunction
 
 function! s:UpdateMatches(bufnr, linenumbersList, historyDepth) abort
     let currentLine = line('.')
-    call s:ClearHighlights(a:bufnr)
+    call s:ClearHighlights()
 
-    let s:matchIds[a:bufnr] = []
     let i = 0 
     let maxI = min([len(a:linenumbersList), a:historyDepth]) 
     while i < maxI
@@ -153,32 +140,6 @@ function! s:UpdateMatches(bufnr, linenumbersList, historyDepth) abort
         if lineNr != currentLine
             let highlightGroupName = s:groupName.(maxI - i - 1)
             let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -100009)
-            call add(s:matchIds[a:bufnr], id)
-        else 
-            call add(s:matchIds[a:bufnr], 0)
-        endif
-        let i = i + 1
-    endwhile
-endfunction
-
-function! s:UpdateMatchesOnMove(linenumbersList, historyDepth) abort
-    let bufn = bufnr()
-    if !has_key(s:matchIds, bufn) || !len(s:matchIds[bufn])
-        return
-    endif
-    let currentLine = line('.')
-
-    let i = 0 
-    let maxI = min([len(a:linenumbersList), a:historyDepth, len(s:matchIds[bufn])]) 
-    while i < maxI
-        let lineNr = a:linenumbersList[i]
-        if lineNr != currentLine && !s:matchIds[bufn][i]
-            let highlightGroupName = s:groupName.(maxI - i - 1)
-            let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -1)
-            let s:matchIds[bufn][i] = id
-        elseif lineNr == currentLine && s:matchIds[bufn][i]
-            call matchdelete(s:matchIds[bufn][i])
-            let s:matchIds[bufn][i] = 0
         endif
         let i = i + 1
     endwhile
@@ -195,7 +156,7 @@ endfunction
 
 function! footprints#FootprintsInner(bufnr) abort
     if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
-        call s:ClearHighlights(a:bufnr)
+        call s:ClearHighlights()
         return
     endif
     call s:ClearChangesList()
@@ -207,20 +168,20 @@ function! footprints#Footprints() abort
 endfunction
 
 function! footprints#OnBufEnter() abort
-    call s:ClearHighlightsInHiddenBuffers()
+    call s:ClearHighlights()
     call footprints#FootprintsInner(bufnr())
 endfunction
 
 function footprints#OnFiletypeSet() abort
-    call s:ClearHighlightsInHiddenBuffers()
+    call s:ClearHighlights()
     call footprints#FootprintsInner(bufnr())
 endfunction
 "
 function! footprints#OnCursorMove() abort
-    if !s:isEnabled
+    if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
         return
     endif
-    call s:UpdateMatchesOnMove(s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call s:UpdateMatches(bufnr(), s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
 function! footprints#Disable() abort
