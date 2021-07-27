@@ -1,6 +1,7 @@
 let g:footprintsHistoryDepth = get(g:, 'footprintsHistoryDepth', 20)
 let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit', 'nerdtree', 'diff'])
 let g:footprintsEasingFunction = get(g:, 'footprintsEasingFunction', 'easeInOut')
+let g:footprintsEnabledByDefault = get(g:, 'footprintsEnabledByDefault', 1)
 " Cold: 38403b
 " Warm: 412d1e
 let g:footprintsColor = get(g:, 'footprintsColor', '#6b4930')
@@ -150,7 +151,7 @@ endfunction
 
 function! footprints#FootprintsInit() abort
     call s:DeclareHighlights(g:footprintsColor, g:footprintsHistoryDepth)
-    let s:isEnabled = 1
+    let s:isEnabled = g:footprintsEnabledByDefault
 endfunction
 
 function! footprints#FootprintsInner(bufnr) abort
