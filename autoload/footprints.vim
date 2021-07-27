@@ -126,7 +126,7 @@ function! s:ClearHighlights() abort
 endfunction
 
 function! s:ClearHighlightsInAllBuffers() abort
-    windo call map(s:GetMatches(), matchdelete(v:val.id))
+    windo call map(s:GetMatches(), { i, item -> matchdelete(item.id) })
 endfunction
 
 function! s:UpdateMatches(bufnr, linenumbersList, historyDepth) abort
