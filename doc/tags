@@ -9,3 +9,6 @@ vim-footprints-license	vim-footprints.txt	/*footprints*
 g:footprintsColor	vim-footprints.txt	/*footprints*
 g:footprintsHistoryDepth	vim-footprints.txt	/*footprints*
 g:footprintsExcludeFiletypes	vim-footprints.txt	/*footprints*
+g:footprintsOnCurrentLine	vim-footprints.txt	/*footprints*
+g:footprintsEnabledByDefault	vim-footprints.txt	/*footprints*
+g:footprintsEasingFunction	vim-footprints.txt	/*footprints*

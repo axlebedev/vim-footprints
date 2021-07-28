@@ -29,8 +29,14 @@ CONFIGURATION                               *vim-footprints-configuration*
 g:footprintsColor                                      *g:footprintsColor*
   Type: |String|
   Default: '#6b4930'
-  
+
   Hex number. Color of the latest change highlight
+
+g:footprintsEasingFunction                     *g:footprintsEasingFunction*
+  Type: One of 'linear', 'easein', 'easeout', 'easeinout'
+  Default: 'easeinout'
+
+  How does footprint color 'cooldown' to usual background color
 
 g:footprintsHistoryDepth                        *g:footprintsHistoryDepth*
   Type: |Number|
@@ -43,6 +49,18 @@ g:footprintsExcludeFiletypes                 *g:footprintsExcludeFiletypes*
   Default: `['magit', 'nerdtree', 'diff']`
 
   Which filetypes should not be processed by this plugin
+
+g:footprintsEnabledByDefault                 *g:footprintsEnabledByDefault*
+  Type: |Boolean|
+  Default: 1
+
+  Is this plugin enabled on vim start
+
+g:footprintsOnCurrentLine                       *g:footprintsOnCurrentLine*
+  Type: |Boolean|
+  Default: 0
+
+  Is current line highlighted by footprints
 
 ==============================================================================
 CONTRIBUTIONS                               *vim-footprints-contributions*
