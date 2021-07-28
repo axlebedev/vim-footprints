@@ -5,12 +5,13 @@
 ==============================================================================
 CONTENTS                                         *vim-footprints-contents*
 
-    Introduction .....................................|vim-footprints-intro|
-    Usage ............................................|vim-footprints-usage|
-    Configuration ............................|vim-footprints-configuration|
-    Contributing .............................|vim-footprints-contributions|
-    Credits ........................................|vim-footprints-credits|
-    License ........................................|vim-footprints-license|
+    Introduction .................................... |vim-footprints-intro|
+    Usage ........................................... |vim-footprints-usage|
+    Configuration ........................... |vim-footprints-configuration|
+    Commands ..................................... |vim-footprints-commands|
+    Contributing ............................ |vim-footprints-contributions|
+    Credits ....................................... |vim-footprints-credits|
+    License ....................................... |vim-footprints-license|
 
 ==============================================================================
 INTRODUCTION                                        *vim-footprints-intro*
@@ -28,13 +29,13 @@ CONFIGURATION                               *vim-footprints-configuration*
 
 g:footprintsColor                                      *g:footprintsColor*
   Type: |String|
-  Default: '#6b4930'
+  Default: `'#6b4930'`
 
   Hex number. Color of the latest change highlight
 
 g:footprintsEasingFunction                     *g:footprintsEasingFunction*
   Type: One of 'linear', 'easein', 'easeout', 'easeinout'
-  Default: 'easeinout'
+  Default: `'easeinout'`
 
   How does footprint color 'cooldown' to usual background color
 
@@ -52,15 +53,30 @@ g:footprintsExcludeFiletypes                 *g:footprintsExcludeFiletypes*
 
 g:footprintsEnabledByDefault                 *g:footprintsEnabledByDefault*
   Type: |Boolean|
-  Default: 1
+  Default: `1`
 
   Is this plugin enabled on vim start
 
 g:footprintsOnCurrentLine                       *g:footprintsOnCurrentLine*
   Type: |Boolean|
-  Default: 0
+  Default: `0`
 
   Is current line highlighted by footprints
+
+==============================================================================
+COMMANDS                                          *vim-footprints-commands*
+
+FootprintsDisable                                       *FootprintsDisable*
+FootprintsEnable                                         *FootprintsEnable*
+FootprintsToggle                                         *FootprintsToggle*
+
+  Enable/disable Footprints globally
+
+FootprintsCurrentLineDisable                 *FootprintsCurrentLineDisable*
+FootprintsCurrentLineEnable                   *FootprintsCurrentLineEnable*
+FootprintsCurrentLineToggle                   *FootprintsCurrentLineToggle*
+
+  Enable/disable Footprint highlight on current line: 
 
 ==============================================================================
 CONTRIBUTIONS                               *vim-footprints-contributions*
