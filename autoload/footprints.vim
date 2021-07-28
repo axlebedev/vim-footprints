@@ -149,13 +149,8 @@ endfunction
 
 " {{{
 " main
-
-function! footprints#FootprintsInit() abort
-    call s:DeclareHighlights(g:footprintsColor, g:footprintsHistoryDepth)
-    let s:isEnabled = g:footprintsEnabledByDefault
-endfunction
-
-function! footprints#FootprintsInner(bufnr) abort
+"
+function! s:FootprintsInner(bufnr) abort
     if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
         call s:ClearHighlights()
         return
@@ -164,18 +159,23 @@ function! footprints#FootprintsInner(bufnr) abort
     call s:UpdateMatches(a:bufnr, s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
+function! footprints#FootprintsInit() abort
+    call s:DeclareHighlights(g:footprintsColor, g:footprintsHistoryDepth)
+    let s:isEnabled = g:footprintsEnabledByDefault
+endfunction
+
 function! footprints#Footprints() abort
-    call footprints#FootprintsInner(bufnr())
+    call s:FootprintsInner(bufnr())
 endfunction
 
 function! footprints#OnBufEnter() abort
     call s:ClearHighlights()
-    call footprints#FootprintsInner(bufnr())
+    call s:FootprintsInner(bufnr())
 endfunction
 
 function footprints#OnFiletypeSet() abort
     call s:ClearHighlights()
-    call footprints#FootprintsInner(bufnr())
+    call s:FootprintsInner(bufnr())
 endfunction
 
 function! footprints#OnCursorMove() abort
