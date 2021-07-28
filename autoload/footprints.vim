@@ -177,7 +177,7 @@ function footprints#OnFiletypeSet() abort
     call s:ClearHighlights()
     call footprints#FootprintsInner(bufnr())
 endfunction
-"
+
 function! footprints#OnCursorMove() abort
     if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1 || g:footprintsOnCurrentLine
         return
