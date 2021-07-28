@@ -1,12 +1,3 @@
-let g:footprintsHistoryDepth = get(g:, 'footprintsHistoryDepth', 20)
-let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit', 'nerdtree', 'diff'])
-let g:footprintsEasingFunction = get(g:, 'footprintsEasingFunction', 'easeInOut')
-let g:footprintsEnabledByDefault = get(g:, 'footprintsEnabledByDefault', 1)
-let g:footprintsOnCurrentLine = get(g:, 'footprintsOnCurrentLine', 0)
-" Cold: 38403b
-" Warm: 412d1e
-let g:footprintsColor = get(g:, 'footprintsColor', '#6b4930')
-
 let s:isEnabled = 0
 
 let s:groupName = 'FootstepsStep'
