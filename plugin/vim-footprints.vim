@@ -28,3 +28,4 @@ autocmd BufLeave * call footprints#Footprints()
 
 command FootprintsDisable call footprints#Disable()
 command FootprintsEnable call footprints#Enable()
+command FootprintsToggle call footprints#Toggle()

@@ -194,3 +194,11 @@ function! footprints#Enable() abort
     let s:isEnabled = 1
     windo call footprints#FootprintsInner(winbufnr(winnr()))
 endfunction
+
+function! footprints#Toggle() abort
+    if s:isEnabled
+        call footprints#Disable()
+    else
+        call footprints#Enable()
+    endif
+endfunction
