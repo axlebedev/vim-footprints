@@ -1,5 +1,5 @@
 let s:isEnabled = 0
-let s:groupName = 'FootstepsStep'
+let s:groupName = 'FootprintsStep'
 
 function! s:ShouldUpdateMatches() abort
     return s:isEnabled && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
