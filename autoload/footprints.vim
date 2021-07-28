@@ -202,3 +202,21 @@ function! footprints#Toggle() abort
         call footprints#Enable()
     endif
 endfunction
+
+function! footprints#EnableCurrentLine() abort
+    let g:footprintsOnCurrentLine = 1
+    call s:UpdateMatches(bufnr(), s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+endfunction
+
+function! footprints#DisableCurrentLine() abort
+    let g:footprintsOnCurrentLine = 0
+    call s:UpdateMatches(bufnr(), s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+endfunction
+
+function! footprints#ToggleCurrentLine() abort
+    if g:footprintsOnCurrentLine
+        call footprints#DisableCurrentLine()
+    else
+        call footprints#EnnableCurrentLine()
+    endif
+endfunction
