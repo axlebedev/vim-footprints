@@ -5,13 +5,17 @@ function! s:ShouldUpdateMatches() abort
     return s:isEnabled && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
 endfunction
 
+function! footprints#RunUpdateMatches()
+    call footprints#updatematches#UpdateMatches(s:groupName, bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+endfunction
+
 function! s:FootprintsInner(bufnr) abort
     if !s:ShouldUpdateMatches()
         call footprints#clearhighlights#ClearHighlights(s:groupName)
         return
     endif
     call footprints#getchangeslist#ClearChangesList()
-    call footprints#updatematches#UpdateMatches(s:groupName, a:bufnr, footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call footprints#RunUpdateMatches()
 endfunction
 
 function! footprints#FootprintsInit() abort
@@ -37,7 +41,7 @@ function! footprints#OnCursorMove() abort
     if !s:ShouldUpdateMatches() || g:footprintsOnCurrentLine
         return
     endif
-    call footprints#updatematches#UpdateMatches(s:groupName, bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call footprints#RunUpdateMatches()
 endfunction
 
 function! footprints#Disable() abort
@@ -60,12 +64,12 @@ endfunction
 
 function! footprints#EnableCurrentLine() abort
     let g:footprintsOnCurrentLine = 1
-    call footprints#updatematches#UpdateMatches(s:groupName, bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call footprints#RunUpdateMatches()
 endfunction
 
 function! footprints#DisableCurrentLine() abort
     let g:footprintsOnCurrentLine = 0
-    call footprints#updatematches#UpdateMatches(s:groupName, bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call footprints#RunUpdateMatches()
 endfunction
 
 function! footprints#ToggleCurrentLine() abort
