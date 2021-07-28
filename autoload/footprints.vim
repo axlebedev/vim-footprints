@@ -23,11 +23,15 @@ function! s:UpdateMatches(bufnr, linenumbersList, historyDepth) abort
 endfunction
 " }}}
 
+function! s:ShouldUpdateMatches() abort
+    return s:isEnabled && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
+endfunction
+
 " {{{
 " main
 "
 function! s:FootprintsInner(bufnr) abort
-    if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
+    if !s:ShouldUpdateMatches()
         call footprints#clearhighlights#ClearHighlights(s:groupName)
         return
     endif
@@ -55,7 +59,7 @@ function footprints#OnFiletypeSet() abort
 endfunction
 
 function! footprints#OnCursorMove() abort
-    if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1 || g:footprintsOnCurrentLine
+    if !s:ShouldUpdateMatches() || g:footprintsOnCurrentLine
         return
     endif
     call s:UpdateMatches(bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
