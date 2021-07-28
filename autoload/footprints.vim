@@ -11,54 +11,6 @@ let s:isEnabled = 0
 
 let s:groupName = 'FootstepsStep'
 
-function! s:GetMatches() abort
-    return filter(getmatches(), { i, v -> l:v.group =~# s:groupName })
-endfunction
-
-" {{{
-" get list of linenumbers that should be highlighted
-
-function! s:GetChangesList() abort
-    let commandResult = ''
-    set nomore
-    redir => commandResult
-    " change line col text
-    changes
-    redir END
-    set more
-    return commandResult
-endfunction
-
-let s:changesListStore = 0
-function! s:GetChangesLinenumbersListInner(historyDepth) abort
-    silent let changesList = s:GetChangesList()
-    let lines = split(changesList, "\n")
-    let lines = lines[1:] " remove first line with headers
-    let lines = lines[:-2] " remove last line with prompt
-    if (len(lines) > a:historyDepth)
-        let lines = lines[-a:historyDepth:] " get only needed
-    endif
-    let lineNumbers = []
-    for line in lines
-        let lineSpl = split(line)
-        call add(lineNumbers, lineSpl[1])
-    endfor
-    return lineNumbers
-endfunction
-
-function! s:GetChangesLinenumbersList(historyDepth) abort
-    if s:changesListStore
-        return s:changesListStore
-    endif
-    return s:GetChangesLinenumbersListInner(a:historyDepth)
-endfunction
-
-function! s:ClearChangesList() abort
-    let s:changesListStore = 0
-    return 1
-endfunction
-" }}}
-
 " {{{
 " Get Background Color
 
@@ -122,17 +74,9 @@ endfunction
 " {{{
 " set highlight groups to lines of code
 
-function! s:ClearHighlights() abort
-    call map(s:GetMatches(), { i, item -> matchdelete(item.id) })
-endfunction
-
-function! s:ClearHighlightsInAllBuffers() abort
-    windo call map(s:GetMatches(), { i, item -> matchdelete(item.id) })
-endfunction
-
 function! s:UpdateMatches(bufnr, linenumbersList, historyDepth) abort
     let currentLine = line('.')
-    call s:ClearHighlights()
+    call footprints#clearhighlights#ClearHighlights(s:groupName)
 
     let i = 0 
     let maxI = min([len(a:linenumbersList), a:historyDepth]) 
@@ -152,11 +96,11 @@ endfunction
 "
 function! s:FootprintsInner(bufnr) abort
     if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
-        call s:ClearHighlights()
+        call footprints#clearhighlights#ClearHighlights(s:groupName)
         return
     endif
-    call s:ClearChangesList()
-    call s:UpdateMatches(a:bufnr, s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call footprints#getchangeslist#ClearChangesList()
+    call s:UpdateMatches(a:bufnr, footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
 function! footprints#FootprintsInit() abort
@@ -169,12 +113,12 @@ function! footprints#Footprints() abort
 endfunction
 
 function! footprints#OnBufEnter() abort
-    call s:ClearHighlights()
+    call footprints#clearhighlights#ClearHighlights(s:groupName)
     call s:FootprintsInner(bufnr())
 endfunction
 
 function footprints#OnFiletypeSet() abort
-    call s:ClearHighlights()
+    call footprints#clearhighlights#ClearHighlights(s:groupName)
     call s:FootprintsInner(bufnr())
 endfunction
 
@@ -182,11 +126,11 @@ function! footprints#OnCursorMove() abort
     if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1 || g:footprintsOnCurrentLine
         return
     endif
-    call s:UpdateMatches(bufnr(), s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call s:UpdateMatches(bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
 function! footprints#Disable() abort
-    call s:ClearHighlightsInAllBuffers()
+    call s:footprints#clearhighlights#ClearHighlightsInAllBuffers(s:groupName)
     let s:isEnabled = 0
 endfunction
 
@@ -205,12 +149,12 @@ endfunction
 
 function! footprints#EnableCurrentLine() abort
     let g:footprintsOnCurrentLine = 1
-    call s:UpdateMatches(bufnr(), s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call s:UpdateMatches(bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
 function! footprints#DisableCurrentLine() abort
     let g:footprintsOnCurrentLine = 0
-    call s:UpdateMatches(bufnr(), s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
+    call s:UpdateMatches(bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
 function! footprints#ToggleCurrentLine() abort
