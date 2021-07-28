@@ -2,6 +2,7 @@ let g:footprintsHistoryDepth = get(g:, 'footprintsHistoryDepth', 20)
 let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit', 'nerdtree', 'diff'])
 let g:footprintsEasingFunction = get(g:, 'footprintsEasingFunction', 'easeInOut')
 let g:footprintsEnabledByDefault = get(g:, 'footprintsEnabledByDefault', 1)
+let g:footprintsOnCurrentLine = get(g:, 'footprintsOnCurrentLine', 1)
 " Cold: 38403b
 " Warm: 412d1e
 let g:footprintsColor = get(g:, 'footprintsColor', '#6b4930')
@@ -137,7 +138,7 @@ function! s:UpdateMatches(bufnr, linenumbersList, historyDepth) abort
     let maxI = min([len(a:linenumbersList), a:historyDepth]) 
     while i < maxI
         let lineNr = a:linenumbersList[i]
-        if lineNr != currentLine
+        if g:footprintsOnCurrentLine || lineNr != currentLine
             let highlightGroupName = s:groupName.(maxI - i - 1)
             let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -100009)
         endif
@@ -178,7 +179,7 @@ function footprints#OnFiletypeSet() abort
 endfunction
 "
 function! footprints#OnCursorMove() abort
-    if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1
+    if !s:isEnabled || !&modifiable || &diff || index(g:footprintsExcludeFiletypes, &filetype) > -1 || g:footprintsOnCurrentLine
         return
     endif
     call s:UpdateMatches(bufnr(), s:GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
