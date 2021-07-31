@@ -5,7 +5,7 @@ function! s:ShouldUpdateMatches() abort
     return s:isEnabled && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
 endfunction
 
-function! footprints#RunUpdateMatches()
+function! s:RunUpdateMatches()
     call footprints#updatematches#UpdateMatches(s:groupName, bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
 endfunction
 
@@ -15,7 +15,7 @@ function! s:FootprintsInner(bufnr) abort
         return
     endif
     call footprints#getchangeslist#ClearChangesList()
-    call footprints#RunUpdateMatches()
+    call s:RunUpdateMatches()
 endfunction
 
 function! footprints#FootprintsInit() abort
@@ -41,7 +41,7 @@ function! footprints#OnCursorMove() abort
     if !s:ShouldUpdateMatches() || g:footprintsOnCurrentLine
         return
     endif
-    call footprints#RunUpdateMatches()
+    call s:RunUpdateMatches()
 endfunction
 
 function! footprints#Disable() abort
@@ -64,12 +64,13 @@ endfunction
 
 function! footprints#EnableCurrentLine() abort
     let g:footprintsOnCurrentLine = 1
-    call footprints#RunUpdateMatches()
+    call s:RunUpdateMatches()
 endfunction
 
 function! footprints#DisableCurrentLine() abort
-    let g:footprintsOnCurrentLine = 0
-    call footprints#RunUpdateMatches()
+    l
+    et g:footprintsOnCurrentLine = 0
+    call s:RunUpdateMatches()
 endfunction
 
 function! footprints#ToggleCurrentLine() abort
