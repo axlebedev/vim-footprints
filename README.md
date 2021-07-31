@@ -2,3 +2,5 @@
 TODO: Readme
 
 TODO: terminal colors
+
+TODO: buflocal config
