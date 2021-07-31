@@ -43,12 +43,12 @@ function! s:GetIntermediateColor(accentColorStr, normalColorStr, step, totalStep
     return '#'.s:DecToHex(intermediateRed).s:DecToHex(intermediateGreen).s:DecToHex(intermediateBlue)
 endfunction
 
-function! footprints#declarehighlights#DeclareHighlights(groupName, accentColorStr, totalSteps) abort
+function! footprints#declarehighlights#DeclareHighlights(groupName, accentColorStr, accentTermColorStr, totalSteps) abort
     silent let normalBg = s:GetNormalBackgroundColor()
     let i = 0
     while i < a:totalSteps
         let color = s:GetIntermediateColor(a:accentColorStr, normalBg, i, a:totalSteps)
-        silent execute 'highlight '.a:groupName.i.' guibg='.color
+        silent execute 'highlight '.a:groupName.i.' guibg='.color.' ctermbg='.a:accentTermColorStr
         let i = i + 1
     endwhile
 endfunction

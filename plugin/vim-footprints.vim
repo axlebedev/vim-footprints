@@ -9,6 +9,7 @@ let g:footprintsOnCurrentLine = get(g:, 'footprintsOnCurrentLine', 0)
 " Cold: 38403b
 " Warm: 412d1e
 let g:footprintsColor = get(g:, 'footprintsColor', '#6b4930')
+let g:footprintsTermColor = get(g:, 'footprintsTermColor', '208')
 let g:isLoadedFootprints = 1
 
 autocmd VimEnter * call footprints#FootprintsInit()

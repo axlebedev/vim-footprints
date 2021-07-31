@@ -26,7 +26,7 @@ function! s:FootprintsInner(bufnr) abort
 endfunction
 
 function! footprints#FootprintsInit() abort
-    call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsHistoryDepth)
+    call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsTermColor, g:footprintsHistoryDepth)
     let s:isEnabled = g:footprintsEnabledByDefault
 endfunction
 
