@@ -38,6 +38,10 @@ command FootprintsDisable call footprints#Disable()
 command FootprintsEnable call footprints#Enable()
 command FootprintsToggle call footprints#Toggle()
 
+command FootprintsBufferDisable call footprints#Disable(1)
+command FootprintsBufferEnable call footprints#Enable(1)
+command FootprintsBufferToggle call footprints#Toggle(1)
+
 command FootprintsDisableCurrentLine call footprints#DisableCurrentLine()
 command FootprintsEnableCurrentLine call footprints#EnableCurrentLine()
 command FootprintsToggleCurrentLine call footprints#ToggleCurrentLine()

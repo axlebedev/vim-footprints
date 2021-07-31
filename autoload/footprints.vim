@@ -51,21 +51,29 @@ function! footprints#OnCursorMove() abort
     call s:RunUpdateMatches()
 endfunction
 
-function! footprints#Disable() abort
+function! footprints#Disable(isBufLocal = 0) abort
     call footprints#clearhighlights#ClearHighlightsInAllBuffers(s:groupName)
-    let s:isEnabled = 0
+    if (a:isBufLocal)
+        let b:isEnabled = 0
+    else
+        let s:isEnabled = 0
+    endif
 endfunction
 
-function! footprints#Enable() abort
-    let s:isEnabled = 1
+function! footprints#Enable(isBufLocal = 0) abort
+    if (a:isBufLocal)
+        let b:isEnabled = 1
+    else
+        let s:isEnabled = 1
+    endif
     windo call s:FootprintsInner(winbufnr(winnr()))
 endfunction
 
-function! footprints#Toggle() abort
-    if s:isEnabled
-        call footprints#Disable()
+function! footprints#Toggle(isBufLocal = 0) abort
+    if s:GetIsEnabled()
+        call footprints#Disable(a:isBufLocal)
     else
-        call footprints#Enable()
+        call footprints#Enable(a:isBufLocal)
     endif
 endfunction
 
