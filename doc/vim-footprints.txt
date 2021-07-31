@@ -33,6 +33,14 @@ g:footprintsColor                                      *g:footprintsColor*
 
   Hex number. Color of the latest change highlight
 
+g:footprintsTermColor                              *g:footprintsTermColor*
+  Type: |String|
+  Default: `'208'`
+
+  Number. Color of the latest changes highlights
+  In terminal it is one color for all footprints,
+  |g:footprintsEasingFunction| is ignored.
+
 g:footprintsEasingFunction                     *g:footprintsEasingFunction*
   Type: One of 'linear', 'easein', 'easeout', 'easeinout'
   Default: `'easeinout'`
@@ -72,11 +80,17 @@ FootprintsToggle                                         *FootprintsToggle*
 
   Enable/disable Footprints globally
 
+FootprintsBufferDisable                            *FootprintsBufferDisable*
+FootprintsBufferEnable                              *FootprintsBufferEnable*
+FootprintsBufferToggle                              *FootprintsBufferToggle*
+
+  Enable/disable Footprints in current buffer
+
 FootprintsCurrentLineDisable                 *FootprintsCurrentLineDisable*
 FootprintsCurrentLineEnable                   *FootprintsCurrentLineEnable*
 FootprintsCurrentLineToggle                   *FootprintsCurrentLineToggle*
 
-  Enable/disable Footprint highlight on current line: 
+  Enable/disable Footprint highlight for current line
 
 ==============================================================================
 CONTRIBUTIONS                               *vim-footprints-contributions*
