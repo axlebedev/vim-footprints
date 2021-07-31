@@ -52,13 +52,13 @@ function! footprints#OnCursorMove() abort
 endfunction
 
 function! footprints#Disable() abort
-    call s:footprints#clearhighlights#ClearHighlightsInAllBuffers(s:groupName)
+    call footprints#clearhighlights#ClearHighlightsInAllBuffers(s:groupName)
     let s:isEnabled = 0
 endfunction
 
 function! footprints#Enable() abort
     let s:isEnabled = 1
-    windo call footprints#FootprintsInner(winbufnr(winnr()))
+    windo call s:FootprintsInner(winbufnr(winnr()))
 endfunction
 
 function! footprints#Toggle() abort
