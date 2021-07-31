@@ -83,8 +83,7 @@ function! footprints#EnableCurrentLine() abort
 endfunction
 
 function! footprints#DisableCurrentLine() abort
-    l
-    et g:footprintsOnCurrentLine = 0
+    let g:footprintsOnCurrentLine = 0
     call s:RunUpdateMatches()
 endfunction
 
