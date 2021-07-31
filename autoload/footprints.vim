@@ -1,8 +1,15 @@
 let s:isEnabled = 0
 let s:groupName = 'FootprintsStep'
 
+function! s:GetIsEnabled()
+    if exists("b:isEnabled")
+        return b:isEnabled
+    endif
+    return s:isEnabled
+endfunction
+
 function! s:ShouldUpdateMatches() abort
-    return s:isEnabled && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
+    return s:GetIsEnabled() && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
 endfunction
 
 function! s:RunUpdateMatches()
