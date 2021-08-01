@@ -64,7 +64,7 @@ g:footprintsHistoryDepth                           *g:footprintsHistoryDepth*
   Type: |Number|
   Default: `20`
 
-  How many lines should be highlighted >
+  How many steps should be highlighted >
 
   let g:footprintsHistoryDepth = 10
 <
@@ -129,8 +129,8 @@ footprints#Footprints()                             *footprints#Footprints()*
 
 footprints#OnBufEnter()                             *footprints#OnBufEnter()*
 
-    Update footprints when current window 
-    contains some older highlights >
+    Update footprints on bufenter or 
+    any other case when current window contains some older highlights >
 
     call footprints#OnBufEnter()
 <
