@@ -171,6 +171,8 @@ footprints#ToggleCurrentLine()             *footprints#ToggleCurrentLine()*
 CONTRIBUTIONS                               *vim-footprints-contributions*
 
 Contributions and pull requests are welcome.
+If you find a bug, or have an improvement suggestion -
+please place an issue at https://github.com/axlebedev/vim-footprints
 
 ==============================================================================
 CREDITS                                           *vim-footprints-credits*
