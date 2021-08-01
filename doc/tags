@@ -23,3 +23,14 @@ FootprintsCurrentLineToggle	vim-footprints.txt	/*FootprintsCurrentLineToggle*
 vim-footprints-contributions	vim-footprints.txt	/*vim-footprints-contributions*
 vim-footprints-credits	vim-footprints.txt	/*vim-footprints-credits*
 vim-footprints-license	vim-footprints.txt	/*vim-footprints-license*
+vim-footprints-functions	vim-footprints.txt	/*vim-footprints-functions*
+footprints#Footprints	vim-footprints.txt	/*footprints#Footprints*
+footprints#OnBufEnter	vim-footprints.txt	/*footprints#OnBufEnter*
+footprints#OnFiletypeSet	vim-footprints.txt	/*footprints#OnFiletypeSet*
+footprints#OnCursorMove	vim-footprints.txt	/*footprints#OnCursorMove*
+footprints#Disable(isBufLocal	vim-footprints.txt	/*footprints#Disable(isBufLocal*
+footprints#Enable(isBufLocal	vim-footprints.txt	/*footprints#Enable(isBufLocal*
+footprints#Toggle(isBufLocal	vim-footprints.txt	/*footprints#Toggle(isBufLocal*
+footprints#EnableCurrentLine	vim-footprints.txt	/*footprints#EnableCurrentLine*
+footprints#DisableCurrentLine	vim-footprints.txt	/*footprints#DisableCurrentLine*
+footprints#ToggleCurrentLine	vim-footprints.txt	/*footprints#ToggleCurrentLine*
