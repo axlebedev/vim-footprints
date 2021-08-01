@@ -2,34 +2,34 @@
 
 *footprints*     `:changes` visualisation on the fly
 
-==============================================================================
-CONTENTS                                         *footprints-contents*
+===============================================================================
+CONTENTS                                                *footprints-contents*
 
-    Introduction .................................... |footprints-intro|
-    Usage ........................................... |footprints-usage|
-    Configuration ........................... |footprints-configuration|
-    Commands ..................................... |footprints-commands|
-    API ............................................... |footprints-api|
-    Contributing ............................ |footprints-contributions|
-    Credits ....................................... |footprints-credits|
-    License ....................................... |footprints-license|
+    Introduction ...................... |footprints-intro|
+    Usage ............................. |footprints-usage|
+    Configuration ..................... |footprints-configuration|
+    Commands .......................... |footprints-commands|
+    API ............................... |footprints-api|
+    Contributing ...................... |footprints-contributions|
+    Credits ........................... |footprints-credits|
+    License ........................... |footprints-license|
 
-==============================================================================
-INTRODUCTION                                        *footprints-intro*
+===============================================================================
+INTRODUCTION                                               *footprints-intro*
 
 footprints highlights latest changes in current buffer.
 It helps to keep focus on lines you are working on
 
-==============================================================================
-USAGE                                               *footprints-usage*
+===============================================================================
+USAGE                                                      *footprints-usage*
 
 Change any text, and that line will be highlighted.
 The older change - the dimmer highlight.
 
-==============================================================================
-CONFIGURATION                               *footprints-configuration*
+===============================================================================
+CONFIGURATION                                      *footprints-configuration*
 
-g:footprintsColor                                      *g:footprintsColor*
+g:footprintsColor                                         *g:footprintsColor*
   Type: |String|
   Default: `'#6b4930'`
 
@@ -39,7 +39,7 @@ g:footprintsColor                                      *g:footprintsColor*
 <
 
 
-g:footprintsTermColor                              *g:footprintsTermColor*
+g:footprintsTermColor                                 *g:footprintsTermColor*
   Type: |String|
   Default: `'208'`
 
@@ -51,7 +51,7 @@ g:footprintsTermColor                              *g:footprintsTermColor*
 <
 
 
-g:footprintsEasingFunction                     *g:footprintsEasingFunction*
+g:footprintsEasingFunction                       *g:footprintsEasingFunction*
   Type: One of 'linear', 'easein', 'easeout', 'easeinout'
   Default: `'linear'`
 
@@ -60,7 +60,7 @@ g:footprintsEasingFunction                     *g:footprintsEasingFunction*
   let g:footprintsEasingFunction = 'easeinout'
 <
 
-g:footprintsHistoryDepth                        *g:footprintsHistoryDepth*
+g:footprintsHistoryDepth                           *g:footprintsHistoryDepth*
   Type: |Number|
   Default: `20`
 
@@ -69,7 +69,7 @@ g:footprintsHistoryDepth                        *g:footprintsHistoryDepth*
   let g:footprintsHistoryDepth = 10
 <
 
-g:footprintsExcludeFiletypes                 *g:footprintsExcludeFiletypes*
+g:footprintsExcludeFiletypes                   *g:footprintsExcludeFiletypes*
   Type: |List|
   Default: `[]`
 
@@ -78,7 +78,7 @@ g:footprintsExcludeFiletypes                 *g:footprintsExcludeFiletypes*
   let g:footprintsExcludeFiletypes = '['magit', 'nerdtree', 'diff']'
 <
 
-g:footprintsEnabledByDefault                 *g:footprintsEnabledByDefault*
+g:footprintsEnabledByDefault                   *g:footprintsEnabledByDefault*
   Type: |Boolean|
   Default: `1`
 
@@ -87,7 +87,7 @@ g:footprintsEnabledByDefault                 *g:footprintsEnabledByDefault*
   let g:footprintsEnabledByDefault = 1
 <
 
-g:footprintsOnCurrentLine                       *g:footprintsOnCurrentLine*
+g:footprintsOnCurrentLine                         *g:footprintsOnCurrentLine*
   Type: |Boolean|
   Default: `0`
 
@@ -96,38 +96,38 @@ g:footprintsOnCurrentLine                       *g:footprintsOnCurrentLine*
   let g:footprintsOnCurrentLine = 0
 <
 
-==============================================================================
-COMMANDS                                          *footprints-commands*
+===============================================================================
+COMMANDS                                                *footprints-commands*
 
-FootprintsDisable                                       *FootprintsDisable*
-FootprintsEnable                                         *FootprintsEnable*
-FootprintsToggle                                         *FootprintsToggle*
+FootprintsDisable                                         *FootprintsDisable*
+FootprintsEnable                                           *FootprintsEnable*
+FootprintsToggle                                           *FootprintsToggle*
 
   Enable/disable Footprints globally
 
-FootprintsBufferDisable                            *FootprintsBufferDisable*
-FootprintsBufferEnable                              *FootprintsBufferEnable*
-FootprintsBufferToggle                              *FootprintsBufferToggle*
+FootprintsBufferDisable                             *FootprintsBufferDisable*
+FootprintsBufferEnable                               *FootprintsBufferEnable*
+FootprintsBufferToggle                               *FootprintsBufferToggle*
 
   Enable/disable Footprints in current buffer
 
-FootprintsCurrentLineDisable                 *FootprintsCurrentLineDisable*
-FootprintsCurrentLineEnable                   *FootprintsCurrentLineEnable*
-FootprintsCurrentLineToggle                   *FootprintsCurrentLineToggle*
+FootprintsCurrentLineDisable                   *FootprintsCurrentLineDisable*
+FootprintsCurrentLineEnable                     *FootprintsCurrentLineEnable*
+FootprintsCurrentLineToggle                     *FootprintsCurrentLineToggle*
 
   Enable/disable Footprint highlight for current line
 
-==============================================================================
-API                                        *footprints-api*
+===============================================================================
+API                                                          *footprints-api*
 
-footprints#Footprints()                           *footprints#Footprints()*
+footprints#Footprints()                             *footprints#Footprints()*
 
     Update footprints in current buffer >
 
     call footprints#Footprints()
 <
 
-footprints#OnBufEnter()                           *footprints#OnBufEnter()*
+footprints#OnBufEnter()                             *footprints#OnBufEnter()*
 
     Update footprints when current window 
     contains some older highlights >
@@ -135,7 +135,7 @@ footprints#OnBufEnter()                           *footprints#OnBufEnter()*
     call footprints#OnBufEnter()
 <
 
-footprints#OnCursorMove()                       *footprints#OnCursorMove()*
+footprints#OnCursorMove()                         *footprints#OnCursorMove()*
 
     Update footprints when content was not changed,
     only need update current line highlight >
@@ -143,9 +143,9 @@ footprints#OnCursorMove()                       *footprints#OnCursorMove()*
     call footprints#OnCursorMove()
 <
 
-footprints#Disable(forCurrentBuffer: bool)           *footprints#Disable()*
-footprints#Enable(forCurrentBuffer: bool)             *footprints#Enable()*
-footprints#Toggle(forCurrentBuffer: bool)             *footprints#Toggle()*
+footprints#Disable(forCurrentBuffer: bool)             *footprints#Disable()*
+footprints#Enable(forCurrentBuffer: bool)               *footprints#Enable()*
+footprints#Toggle(forCurrentBuffer: bool)               *footprints#Toggle()*
 
     Disable, enable or toggle footprints.
     `forCurrentBuffer == 0` - do it globally
@@ -156,9 +156,9 @@ footprints#Toggle(forCurrentBuffer: bool)             *footprints#Toggle()*
     call footprints#Toggle(1)
 <
 
-footprints#EnableCurrentLine()             *footprints#EnableCurrentLine()*
-footprints#DisableCurrentLine()           *footprints#DisableCurrentLine()*
-footprints#ToggleCurrentLine()             *footprints#ToggleCurrentLine()*
+footprints#EnableCurrentLine()               *footprints#EnableCurrentLine()*
+footprints#DisableCurrentLine()             *footprints#DisableCurrentLine()*
+footprints#ToggleCurrentLine()               *footprints#ToggleCurrentLine()*
 
     Disable, enable or toggle footprint on current line. >
 
@@ -167,20 +167,20 @@ footprints#ToggleCurrentLine()             *footprints#ToggleCurrentLine()*
     call footprints#ToggleCurrentLine()
 <
 
-==============================================================================
-CONTRIBUTIONS                               *footprints-contributions*
+===============================================================================
+CONTRIBUTIONS                                      *footprints-contributions*
 
 Contributions and pull requests are welcome.
 If you find a bug, or have an improvement suggestion -
 please place an issue at https://github.com/axlebedev/footprints
 
-==============================================================================
-CREDITS                                           *footprints-credits*
+===============================================================================
+CREDITS                                                  *footprints-credits*
 
 Copyright © 2021 Alex Lebedev. <alex@alexlebe.dev>
 
-==============================================================================
-LICENSE                                           *footprints-license*
+===============================================================================
+LICENSE                                                  *footprints-license*
 
 MIT License.
 
