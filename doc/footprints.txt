@@ -1,33 +1,33 @@
-*vim-footprints.txt*
+*footprints.txt*
 
-*vim-footprints*     :changes visualisation on the fly
-
-==============================================================================
-CONTENTS                                         *vim-footprints-contents*
-
-    Introduction .................................... |vim-footprints-intro|
-    Usage ........................................... |vim-footprints-usage|
-    Configuration ........................... |vim-footprints-configuration|
-    Commands ..................................... |vim-footprints-commands|
-    API ............................................... |vim-footprints-api|
-    Contributing ............................ |vim-footprints-contributions|
-    Credits ....................................... |vim-footprints-credits|
-    License ....................................... |vim-footprints-license|
+*footprints*     `:changes` visualisation on the fly
 
 ==============================================================================
-INTRODUCTION                                        *vim-footprints-intro*
+CONTENTS                                         *footprints-contents*
 
-Vim-footprints highlights latest changes in current buffer.
+    Introduction .................................... |footprints-intro|
+    Usage ........................................... |footprints-usage|
+    Configuration ........................... |footprints-configuration|
+    Commands ..................................... |footprints-commands|
+    API ............................................... |footprints-api|
+    Contributing ............................ |footprints-contributions|
+    Credits ....................................... |footprints-credits|
+    License ....................................... |footprints-license|
+
+==============================================================================
+INTRODUCTION                                        *footprints-intro*
+
+footprints highlights latest changes in current buffer.
 It helps to keep focus on lines you are working on
 
 ==============================================================================
-USAGE                                               *vim-footprints-usage*
+USAGE                                               *footprints-usage*
 
 Change any text, and that line will be highlighted.
 The older change - the dimmer highlight.
 
 ==============================================================================
-CONFIGURATION                               *vim-footprints-configuration*
+CONFIGURATION                               *footprints-configuration*
 
 g:footprintsColor                                      *g:footprintsColor*
   Type: |String|
@@ -97,7 +97,7 @@ g:footprintsOnCurrentLine                       *g:footprintsOnCurrentLine*
 <
 
 ==============================================================================
-COMMANDS                                          *vim-footprints-commands*
+COMMANDS                                          *footprints-commands*
 
 FootprintsDisable                                       *FootprintsDisable*
 FootprintsEnable                                         *FootprintsEnable*
@@ -118,7 +118,7 @@ FootprintsCurrentLineToggle                   *FootprintsCurrentLineToggle*
   Enable/disable Footprint highlight for current line
 
 ==============================================================================
-API                                        *vim-footprints-api*
+API                                        *footprints-api*
 
 footprints#Footprints()                           *footprints#Footprints()*
 
@@ -168,19 +168,19 @@ footprints#ToggleCurrentLine()             *footprints#ToggleCurrentLine()*
 <
 
 ==============================================================================
-CONTRIBUTIONS                               *vim-footprints-contributions*
+CONTRIBUTIONS                               *footprints-contributions*
 
 Contributions and pull requests are welcome.
 If you find a bug, or have an improvement suggestion -
-please place an issue at https://github.com/axlebedev/vim-footprints
+please place an issue at https://github.com/axlebedev/footprints
 
 ==============================================================================
-CREDITS                                           *vim-footprints-credits*
+CREDITS                                           *footprints-credits*
 
 Copyright © 2021 Alex Lebedev. <alex@alexlebe.dev>
 
 ==============================================================================
-LICENSE                                           *vim-footprints-license*
+LICENSE                                           *footprints-license*
 
 MIT License.
 
