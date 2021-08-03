@@ -125,3 +125,6 @@ Disable, enable or toggle footprints.
 Contributions and pull requests are welcome.  
 If you find a bug, or have an improvement suggestion -
 please place an issue in this repository.
+
+### TODO
+FootprintsDisable should work immediately
