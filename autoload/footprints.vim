@@ -25,8 +25,13 @@ function! s:FootprintsInner(bufnr) abort
     call s:RunUpdateMatches()
 endfunction
 
-function! footprints#FootprintsInit() abort
+function! footprints#SetColor(color) abort
+    let g:footprintsColor = a:color
     call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsTermColor, g:footprintsHistoryDepth)
+endfunction
+
+function! footprints#FootprintsInit() abort
+    call footprints#SetColor(g:footprintsColor)
     let s:isEnabled = g:footprintsEnabledByDefault
 endfunction
 

@@ -14,7 +14,7 @@ function! s:GetNormalBackgroundColor() abort
 endfunction
 
 function! s:DecToHex(value) abort
-    return printf('%x', a:value)
+    return printf('%02x', a:value)
 endfunction
 
 function! s:GetIntermediateValue(accentColor, baseColor, step, totalSteps) abort

@@ -33,3 +33,4 @@ footprints#Toggle()	footprints.txt	/*footprints#Toggle()*
 footprints#EnableCurrentLine()	footprints.txt	/*footprints#EnableCurrentLine()*
 footprints#DisableCurrentLine()	footprints.txt	/*footprints#DisableCurrentLine()*
 footprints#ToggleCurrentLine()	footprints.txt	/*footprints#ToggleCurrentLine()*
+footprints#SetColor()	footprints.txt	/*footprints#SetColor()*

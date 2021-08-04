@@ -167,6 +167,14 @@ footprints#ToggleCurrentLine()               *footprints#ToggleCurrentLine()*
     call footprints#ToggleCurrentLine()
 <
 
+footprints#SetColor(color: string)                    *footprints#SetColor()*
+
+    Set footprints color.
+    "color" arg is string in hex format >
+
+    call footprints#SetColor("#38403b")
+<
+
 ===============================================================================
 CONTRIBUTIONS                                      *footprints-contributions*
 
