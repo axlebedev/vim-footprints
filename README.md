@@ -15,7 +15,7 @@ The older change - the dimmer highlight.
 `g:footprintsColor` (default: `#6b4930`)  
 Hex number. Color of the latest change highlight
 ```
-  let g:footprintsColor = '#38403b'
+  let g:footprintsColor = '#3A3A3A'
 ```
 
 `g:footprintsTermColor` (default: `208`)  
