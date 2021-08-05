@@ -175,6 +175,13 @@ footprints#SetColor(color: string)                    *footprints#SetColor()*
     call footprints#SetColor("#38403b")
 <
 
+footprints#SetTermColor(color: string)            *footprints#SetTermColor()*
+
+    Set footprints terminal color. >
+
+    call footprints#SetTermColor(206)
+<
+
 ===============================================================================
 CONTRIBUTIONS                                      *footprints-contributions*
 
