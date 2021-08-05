@@ -62,12 +62,12 @@ function! footprints#OnCursorMove() abort
 endfunction
 
 function! footprints#Disable(isBufLocal = 0) abort
-    call footprints#clearhighlights#ClearHighlightsInAllBuffers(s:groupName)
     if (a:isBufLocal)
         let b:isEnabled = 0
     else
         let s:isEnabled = 0
     endif
+    call footprints#clearhighlights#ClearHighlightsInAllBuffers(s:groupName)
 endfunction
 
 function! footprints#Enable(isBufLocal = 0) abort

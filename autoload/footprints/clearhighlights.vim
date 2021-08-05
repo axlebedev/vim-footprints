@@ -1,11 +1,13 @@
 function! s:GetMatches(groupName) abort
-    return filter(getmatches(), { i, v -> l:v.group =~# a:groupName })
+    let res = filter(getmatches(), { i, v -> l:v.group =~# a:groupName })
+    let mapped = map(res, { i, item  -> item.id })
+    return mapped
 endfunction
 
 function! footprints#clearhighlights#ClearHighlights(groupName) abort
-    call map(s:GetMatches(a:groupName), { i, item -> matchdelete(item.id) })
+    call map(s:GetMatches(a:groupName), { i, id -> matchdelete(id) })
 endfunction
 
 function! footprints#clearhighlights#ClearHighlightsInAllBuffers(groupName) abort
-    windo call map(s:GetMatches(a:groupName), { i, item -> matchdelete(item.id) })
+    windo call map(s:GetMatches(a:groupName), { i, id -> matchdelete(id, winnr()) })
 endfunction
