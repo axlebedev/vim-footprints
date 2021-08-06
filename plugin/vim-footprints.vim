@@ -6,7 +6,7 @@ let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit
 let g:footprintsEasingFunction = get(g:, 'footprintsEasingFunction', 'easeInOut')
 let g:footprintsEnabledByDefault = get(g:, 'footprintsEnabledByDefault', 1)
 let g:footprintsOnCurrentLine = get(g:, 'footprintsOnCurrentLine', 0)
-let g:footprintsColor = get(g:, 'footprintsColor', '#3A3A3A')
+let g:footprintsColor = get(g:, 'footprintsColor', &background == 'dark' ? '#3A3A3A' : '#C1C1C1')
 let g:footprintsTermColor = get(g:, 'footprintsTermColor', '208')
 let g:isLoadedFootprints = 1
 
