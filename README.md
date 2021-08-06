@@ -7,6 +7,8 @@ Change any text.
 That line will be highlighted.  
 The older change - the dimmer highlight.  
 
+### DEMO
+
 ![Main plugin gif](readme/footprints-main.gif)
 
 ---
