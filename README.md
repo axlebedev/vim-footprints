@@ -21,7 +21,7 @@ Example of installation and setting configs
   let g:footprintsTermColor = '208'
   let g:footprintsEasingFunction = 'linear'
   let g:footprintsHistoryDepth = 20
-  let g:footprintsExcludeFiletypes = '['magit', 'nerdtree', 'diff']'
+  let g:footprintsExcludeFiletypes = ['magit', 'nerdtree', 'diff']
   let g:footprintsEnabledByDefault = 1
   let g:footprintsOnCurrentLine = 0
 ```
@@ -56,7 +56,7 @@ How many steps should be highlighted
 ##### `g:footprintsExcludeFiletypes`
 Default: `[]`  
 Which filetypes should not be processed by this plugin  
-`let g:footprintsExcludeFiletypes = '['magit', 'nerdtree', 'diff']'`  
+`let g:footprintsExcludeFiletypes = ['magit', 'nerdtree', 'diff']`  
 
 ##### `g:footprintsEnabledByDefault`
 Default: `1`  
