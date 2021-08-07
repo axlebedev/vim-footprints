@@ -98,6 +98,16 @@ Boolean. Define if current line should be highlighted or not.
 
 ### API
 
+##### `footprints#SetColor(hexColor: string)`
+Set `g:footprintsColor` and update highlights to new color.  
+Note: this change will not be saved to next vim run, use `g:footprintsColor` for persistent change.  
+`call footprints#SetColor('#FF0000')`  
+
+##### `footprints#SetTermColor(termColorCode: number)`
+Set `g:footprintsTermColor` and update highlights to new color.  
+Note: this change will not be saved to next vim run, use `g:footprintsColor` for persistent change.  
+`call footprints#SetTermColor(200)`  
+
 ##### `footprints#Footprints()`
 Update footprints in current buffer  
 `call footprints#Footprints()`  
