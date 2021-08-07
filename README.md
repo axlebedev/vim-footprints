@@ -1,10 +1,10 @@
 # Footprints vim plugin   <img src="readme/footprints.webp" height="48" />
-Footprints is a plugin thqt makes visualisation of command `:changes` on the fly.
+Footprints is a plugin that makes visualisation of command `:changes` on the fly.
 It helps to keep focus on lines you are working on  
 
 ### USAGE
 Change any text.  
-That line will be highlighted.  
+That's it. That line will be highlighted.  
 The older change - the dimmer highlight.  
 
 ### DEMO
