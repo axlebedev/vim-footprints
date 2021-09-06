@@ -1,16 +1,9 @@
 function! s:GetNormalBackgroundColor() abort
-    let commandResult = ''
-    redir => commandResult
-    highlight Normal
-    redir END
-    let normalColorsArray = split(commandResult)
-    let guibg = 0
-    for item in normalColorsArray
-        if item =~? 'guibg='
-            let guibg = item[match(item, '=')+1:]
-        endif
-    endfor
-    return guibg
+    " Store output of group to variable
+    let output = execute('hi Normal')
+
+    " Find the term we're looking for
+    return matchstr(output, 'guibg=\zs\S*')
 endfunction
 
 function! s:DecToHex(value) abort
