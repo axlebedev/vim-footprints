@@ -3,12 +3,13 @@ let s:changesListStore = 0
 "
 function! s:GetChangesList() abort
     let commandResult = ''
+    let savedMore = &more
     set nomore
     redir => commandResult
     " change line col text
     changes
     redir END
-    set more
+    let &more = savedMore 
     return commandResult
 endfunction
 
