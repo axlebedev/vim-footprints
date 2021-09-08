@@ -112,3 +112,9 @@ function! footprints#ToggleCurrentLine() abort
         call footprints#EnnableCurrentLine()
     endif
 endfunction
+
+function! footprints#SetHistoryDepth(newDepth) abort
+    let g:footprintsHistoryDepth = a:newDepth
+    call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsTermColor, g:footprintsHistoryDepth)
+    call s:RunUpdateMatches()
+endfunction

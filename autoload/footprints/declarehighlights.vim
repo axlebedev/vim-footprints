@@ -44,5 +44,9 @@ function! footprints#declarehighlights#DeclareHighlights(groupName, accentColorS
         silent execute 'highlight '.a:groupName.i.' guibg='.color.' ctermbg='.a:accentTermColorStr
         let i = i + 1
     endwhile
+    while hlexists(a:groupName.i)
+        execute('highlight clear '.a:groupName.i)
+        let i = i + 1
+    endwhile
 endfunction
 " }}}
