@@ -183,6 +183,12 @@ footprints#SetTermColor(color: string)            *footprints#SetTermColor()*
     call footprints#SetTermColor(206)
 <
 
+footprints#SetHistoryDepth(depth: number)      *footprints#SetHistoryDepth()*
+    Set footprints history depth for current session. >
+
+    call footprints#SetHistoryDepth(50)
+<
+
 ===============================================================================
 CONTRIBUTIONS                                      *footprints-contributions*
 

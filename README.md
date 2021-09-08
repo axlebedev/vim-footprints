@@ -105,8 +105,13 @@ Note: this change will not be saved to next vim run, use `g:footprintsColor` for
 
 ##### `footprints#SetTermColor(termColorCode: number)`
 Set `g:footprintsTermColor` and update highlights to new color.  
-Note: this change will not be saved to next vim run, use `g:footprintsColor` for persistent change.  
+Note: this change will not be saved to next vim run, use `g:footprintsTermColor` for persistent change.  
 `call footprints#SetTermColor(200)`  
+
+##### `footprints#SetHistoryDepth(depth: number)`
+Set `g:footprintsHistoryDepth` and update highlights to new depth.  
+Note: this change will not be saved to next vim run, use `g:footprintsHistoryDepth` for persistent change.  
+`call footprints#SetHistoryDepth(200)`  
 
 ##### `footprints#Footprints()`
 Update footprints in current buffer  
