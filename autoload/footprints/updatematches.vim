@@ -11,7 +11,7 @@ function! footprints#updatematches#UpdateMatches(groupName, bufnr, linenumbersLi
     let maxI = min([len(a:linenumbersList), a:historyDepth]) 
 
     " Contentful message about https://github.com/axlebedev/footprints/issues/4
-    if (!hlexists(a:groupName.(a:historyDepth-1)) && !s:isErrorMessageShown)
+    if (!s:isErrorMessageShown && !hlexists(a:groupName.(a:historyDepth-1)))
         let s:isErrorMessageShown = 1
         echo "No highlight group found for g:footprintsHistoryDepth=".g:footprintsHistoryDepth.".
         \ You should call footprints#SetHistoryDepth(".g:footprintsHistoryDepth.")"
