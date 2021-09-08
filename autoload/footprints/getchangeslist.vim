@@ -9,7 +9,7 @@ function! s:GetChangesList() abort
     " change line col text
     changes
     redir END
-    let &more = savedMore 
+    let &more = savedMore
     return commandResult
 endfunction
 
