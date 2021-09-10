@@ -2,8 +2,6 @@
 Footprints is a plugin that makes visualisation of command `:changes` on the fly.
 It helps to keep focus on lines you are working on  
 
-If you use NeoVim, version 0.5+ is required
-
 ### USAGE
 Change any text.  
 That's it. That line will be highlighted.  
@@ -150,6 +148,9 @@ Disable, enable or toggle footprints.
 ```
 
 ---
+
+### TROUBLESHOOTING
+If you use NeoVim, version 0.5+ is required
 
 ### CONTRIBUTIONS
 Contributions and pull requests are welcome.  
