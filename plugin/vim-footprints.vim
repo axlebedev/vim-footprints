@@ -1,4 +1,16 @@
-if exists("g:isLoadedFootprints") || &compatible || v:version < 700
+if exists("g:isLoadedFootprints")
+    finish
+endif
+if &compatible
+    echom 'Footprints load aborted: can not load if compatible'
+    finish
+endif
+if v:version < 700
+    echom 'Footprints load aborted: vim should be version 7+'
+    finish
+endif
+if has('nvim') && !has('nvim-0.5')
+    echom 'Footprints load aborted: NewVim should be version 0.5+'
     finish
 endif
 let g:isLoadedFootprints = 1
