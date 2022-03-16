@@ -9,5 +9,7 @@ function! footprints#clearhighlights#ClearHighlights(groupName) abort
 endfunction
 
 function! footprints#clearhighlights#ClearHighlightsInAllBuffers(groupName) abort
+    let curwinnr = winnr()
     windo call map(s:GetMatches(a:groupName), { i, id -> matchdelete(id, winnr()) })
+    execute curwinnr.' wincmd w'
 endfunction

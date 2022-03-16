@@ -84,7 +84,9 @@ function! footprints#Enable(isBufLocal = 0) abort
     else
         let s:isEnabled = 1
     endif
+    let curwinnr = winnr()
     windo call s:FootprintsInner(winbufnr(winnr()))
+    execute curwinnr.' wincmd w'
 endfunction
 
 function! footprints#Toggle(isBufLocal = 0) abort
