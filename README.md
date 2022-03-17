@@ -9,7 +9,7 @@ The older change - the dimmer highlight.
 
 ### DEMO
 
-![Main plugin gif](readme/footprints-main.gif)
+https://user-images.githubusercontent.com/3949614/158836795-809abfeb-1e6a-4af9-8129-6ba278376bd3.mp4
 
 ---
 
