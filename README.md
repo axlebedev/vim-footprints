@@ -140,11 +140,11 @@ Disable, enable or toggle footprints.
 ##### `footprints#EnableCurrentLine()`
 ##### `footprints#DisableCurrentLine()`
 ##### `footprints#ToggleCurrentLine()`
-    Disable, enable or toggle footprint on current line.
+Disable, enable or toggle footprint on current line.
 ```
-    call footprints#DisableCurrentLine()
-    call footprints#EnableCurrentLine()
-    call footprints#ToggleCurrentLine()
+call footprints#DisableCurrentLine()
+call footprints#EnableCurrentLine()
+call footprints#ToggleCurrentLine()
 ```
 
 ---
