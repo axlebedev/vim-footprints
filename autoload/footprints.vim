@@ -85,8 +85,10 @@ function! footprints#Enable(isBufLocal = 0) abort
         let s:isEnabled = 1
     endif
     let curwinnr = winnr()
-    windo call s:FootprintsInner(winbufnr(winnr()))
-    execute curwinnr.' wincmd w'
+
+    for bufn in tabpagebuflist()
+        windo call s:FootprintsInner(bufn)
+    endfor
 endfunction
 
 function! footprints#Toggle(isBufLocal = 0) abort
