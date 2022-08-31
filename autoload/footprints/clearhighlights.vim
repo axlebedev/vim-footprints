@@ -11,6 +11,6 @@ endfunction
 function! footprints#clearhighlights#ClearHighlightsInAllBuffers(groupName) abort
     for bufn in tabpagebuflist()
         let winn = bufwinnr(bufn)
-        call map(s:GetMatches(a:groupName), { i, id -> matchdelete(id, winn) })
+        call map(s:GetMatches(a:groupName), { i, id -> matchdelete(id) })
     endfor
 endfunction
