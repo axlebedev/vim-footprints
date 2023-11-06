@@ -158,8 +158,5 @@ please place an issue in this repository.
 
 ---
 
-Check out Vim plugins:   
-[**vim-gotoline-popup**](https://github.com/axlebedev/vim-gotoline-popup)  
-[**vim-find-my-cursor**](https://github.com/axlebedev/vim-find-my-cursor)  
-
-**<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;★</p>**
+Check out my other Vim plugins:   
+https://github.com/axlebedev
