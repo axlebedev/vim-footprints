@@ -1,124 +1,140 @@
-let g:footprintsHistoryDepth = get(g:, 'footprintsHistoryDepth', 20)
-let g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit', 'nerdtree', 'diff'])
-let g:footprintsEasingFunction = get(g:, 'footprintsEasingFunction', 'easeInOut')
-let g:footprintsEnabledByDefault = get(g:, 'footprintsEnabledByDefault', 1)
-let g:footprintsOnCurrentLine = get(g:, 'footprintsOnCurrentLine', 0)
-let g:footprintsColor = get(g:, 'footprintsColor', &background == 'dark' ? '#3A3A3A' : '#C1C1C1')
-let g:footprintsTermColor = get(g:, 'footprintsTermColor', '208')
+vim9script
 
-let s:isEnabled = 0
-let s:groupName = 'FootprintsStep'
+import autoload './footprints/clearhighlights.vim' as clearhighlights
+import autoload './footprints/declarehighlights.vim' as declarehighlights
+import autoload './footprints/getchangeslist.vim' as getchangeslist
+import autoload './footprints/updatematches.vim' as updatematches
 
-function! s:GetIsEnabled()
+g:footprintsHistoryDepth = get(g:, 'footprintsHistoryDepth', 20)
+g:footprintsExcludeFiletypes = get(g:, 'footprintsExcludeFiletypes', ['magit', 'nerdtree', 'diff'])
+g:footprintsEasingFunction = get(g:, 'footprintsEasingFunction', 'easeInOut')
+g:footprintsEnabledByDefault = get(g:, 'footprintsEnabledByDefault', true)
+g:footprintsOnCurrentLine = get(g:, 'footprintsOnCurrentLine', false)
+g:footprintsColor = get(g:, 'footprintsColor', &background == 'dark' ? '#3A3A3A' : '#C1C1C1')
+g:footprintsTermColor = get(g:, 'footprintsTermColor', '208')
+
+var isEnabled = false
+const groupName = 'FootprintsStep'
+
+def GetIsEnabled(): bool
     if exists("b:isEnabled")
         return b:isEnabled
     endif
-    return s:isEnabled
-endfunction
+    return isEnabled
+enddef
 
-function! s:ShouldUpdateMatches() abort
-    return s:GetIsEnabled() && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
-endfunction
+def ShouldUpdateMatches(): bool
+    return GetIsEnabled() && &modifiable && !&diff && index(g:footprintsExcludeFiletypes, &filetype) == -1
+enddef
 
-function! s:RunUpdateMatches()
-    call footprints#updatematches#UpdateMatches(s:groupName, bufnr(), footprints#getchangeslist#GetChangesLinenumbersList(g:footprintsHistoryDepth), g:footprintsHistoryDepth)
-endfunction
+def RunUpdateMatches()
+    updatematches.UpdateMatches(
+        groupName,
+        bufnr(),
+        getchangeslist.GetChangesLinenumbersList(g:footprintsHistoryDepth),
+        g:footprintsHistoryDepth,
+    )
+enddef
 
-function! s:FootprintsInner(bufnr) abort
-    if !s:ShouldUpdateMatches()
-        call footprints#clearhighlights#ClearHighlights(s:groupName)
+def FootprintsInner(bufnr: number)
+    if !ShouldUpdateMatches()
+        clearhighlights.ClearHighlights(groupName)
         return
     endif
-    call footprints#getchangeslist#ClearChangesList()
-    call s:RunUpdateMatches()
-endfunction
+    getchangeslist.ClearChangesList()
+    RunUpdateMatches()
+enddef
 
-function! footprints#FootprintsInit() abort
-    call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsTermColor, g:footprintsHistoryDepth)
-    let s:isEnabled = g:footprintsEnabledByDefault
-endfunction
+export def FootprintsInit()
+    declarehighlights.DeclareHighlights(groupName, g:footprintsColor, 
+        g:footprintsTermColor, g:footprintsHistoryDepth)
+    isEnabled = g:footprintsEnabledByDefault
+enddef
 
-function! footprints#SetColor(color) abort
-    let g:footprintsColor = a:color
-    call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsTermColor, g:footprintsHistoryDepth)
-endfunction
+export def SetColor(color: string)
+    g:footprintsColor = color
+    declarehighlights.DeclareHighlights(groupName, g:footprintsColor, 
+        g:footprintsTermColor, g:footprintsHistoryDepth)
+enddef
 
-function! footprints#SetTermColor(color) abort
-    let g:footprintsTermColor = a:color
-    call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsTermColor, g:footprintsHistoryDepth)
-endfunction
+export def SetTermColor(color: string)
+    g:footprintsTermColor = color
+    declarehighlights.DeclareHighlights(groupName, g:footprintsColor, 
+        g:footprintsTermColor, g:footprintsHistoryDepth)
+enddef
 
-function! footprints#Footprints() abort
-    call s:FootprintsInner(bufnr())
-endfunction
+export def Footprints()
+    FootprintsInner(bufnr())
+enddef
 
-function! footprints#OnBufEnter() abort
-    call footprints#clearhighlights#ClearHighlights(s:groupName)
-    call s:FootprintsInner(bufnr())
-endfunction
+export def OnBufEnter()
+    clearhighlights.ClearHighlights(groupName)
+    FootprintsInner(bufnr())
+enddef
 
-function footprints#OnFiletypeSet() abort
-    call footprints#clearhighlights#ClearHighlights(s:groupName)
-    call s:FootprintsInner(bufnr())
-endfunction
+export def OnFiletypeSet()
+    clearhighlights.ClearHighlights(groupName)
+    FootprintsInner(bufnr())
+enddef
 
-function! footprints#OnCursorMove() abort
-    if !s:ShouldUpdateMatches() || g:footprintsOnCurrentLine
+export def OnCursorMove()
+    if !ShouldUpdateMatches() || g:footprintsOnCurrentLine
         return
     endif
-    call s:RunUpdateMatches()
-endfunction
+    RunUpdateMatches()
+enddef
 
-function! footprints#Disable(isBufLocal = 0) abort
-    if (a:isBufLocal)
-        let b:isEnabled = 0
+export def FootprintsDisable(isBufLocal: bool = false)
+    if isBufLocal
+        b:isEnabled = false
     else
-        let s:isEnabled = 0
+        isEnabled = false
     endif
-    call footprints#clearhighlights#ClearHighlightsInAllBuffers(s:groupName)
-endfunction
+    clearhighlights.ClearHighlightsInAllBuffers(groupName)
+enddef
 
-function! footprints#Enable(isBufLocal = 0) abort
-    if (a:isBufLocal)
-        let b:isEnabled = 1
+export def FootprintsEnable(isBufLocal: bool = false)
+    if isBufLocal
+        b:isEnabled = true
     else
-        let s:isEnabled = 1
+        isEnabled = true
     endif
-    let curwinnr = winnr()
+    var curwinnr = winnr()
 
     for bufn in tabpagebuflist()
-        call s:FootprintsInner(bufn)
+        FootprintsInner(bufn)
     endfor
-endfunction
+enddef
 
-function! footprints#Toggle(isBufLocal = 0) abort
-    if s:GetIsEnabled()
-        call footprints#Disable(a:isBufLocal)
+export def FootprintsToggle(isBufLocal: bool = false)
+    if GetIsEnabled()
+        FootprintsDisable(isBufLocal)
     else
-        call footprints#Enable(a:isBufLocal)
+        FootprintsEnable(isBufLocal)
     endif
-endfunction
+enddef
 
-function! footprints#EnableCurrentLine() abort
-    let g:footprintsOnCurrentLine = 1
-    call s:RunUpdateMatches()
-endfunction
+export def FootprintsEnableCurrentLine()
+    g:footprintsOnCurrentLine = true
+    RunUpdateMatches()
+enddef
 
-function! footprints#DisableCurrentLine() abort
-    let g:footprintsOnCurrentLine = 0
-    call s:RunUpdateMatches()
-endfunction
+export def FootprintsDisableCurrentLine()
+    g:footprintsOnCurrentLine = false
+    RunUpdateMatches()
+enddef
 
-function! footprints#ToggleCurrentLine() abort
+export def FootprintsToggleCurrentLine()
     if g:footprintsOnCurrentLine
-        call footprints#DisableCurrentLine()
+        FootprintsDisableCurrentLine()
     else
-        call footprints#EnnableCurrentLine()
+        FootprintsEnableCurrentLine()
     endif
-endfunction
+enddef
 
-function! footprints#SetHistoryDepth(newDepth) abort
-    let g:footprintsHistoryDepth = a:newDepth
-    call footprints#declarehighlights#DeclareHighlights(s:groupName, g:footprintsColor, g:footprintsTermColor, g:footprintsHistoryDepth)
-    call s:RunUpdateMatches()
-endfunction
+export def SetHistoryDepth(newDepth: number)
+    g:footprintsHistoryDepth = newDepth
+    declarehighlights.DeclareHighlights(groupName, g:footprintsColor, 
+        g:footprintsTermColor, g:footprintsHistoryDepth)
+    RunUpdateMatches()
+enddef

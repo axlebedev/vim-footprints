@@ -1,52 +1,50 @@
-function! s:GetNormalBackgroundColor() abort
-    " Store output of group to variable
-    let output = execute('hi Normal')
+vim9script
 
-    " Find the term we're looking for
+import autoload '../easings.vim' as easings
+
+def GetNormalBackgroundColor(): string
+    var output = execute('hi Normal')
     return matchstr(output, 'guibg=\zs\S*')
-endfunction
+enddef
 
-function! s:DecToHex(value) abort
-    return printf('%02x', a:value)
-endfunction
+def DecToHex(value: number): string
+    return printf('%02x', value)
+enddef
 
-function! s:GetIntermediateValue(accentColor, baseColor, step, totalSteps) abort
-    if a:step <= 0
-        return a:accentColor
+def GetIntermediateValue(accentColor: number, baseColor: number, step: number, totalSteps: number): float
+    if step <= 0
+        return accentColor * 1.0
     endif
-    return a:baseColor + (a:accentColor - a:baseColor) * easings#EasingFunc(1 - (a:step + 0.0) / a:totalSteps)
-endfunction
+    return baseColor + (accentColor - baseColor) * easings.EasingFunc(1 - (step + 0.0) / totalSteps)
+enddef
 
-" {{{
-" Declare 'FootprintsStep0', 'FootprintsStep1'...
+def GetIntermediateColor(accentColorStr: string, normalColorStr: string, step: number, totalSteps: number): string
+    var accentRed = str2nr(accentColorStr[1 : 2], 16)
+    var normalRed = str2nr(normalColorStr[1 : 2], 16)
+    var intermediateRed = float2nr(round(GetIntermediateValue(accentRed, normalRed, step, totalSteps)))
 
-function! s:GetIntermediateColor(accentColorStr, normalColorStr, step, totalSteps)
-    let accentRed = str2nr(a:accentColorStr[1:2], 16)
-    let normalRed = str2nr(a:normalColorStr[1:2], 16)
-    let intermediateRed = float2nr(round(s:GetIntermediateValue(accentRed, normalRed, a:step, a:totalSteps)))
+    var accentGreen = str2nr(accentColorStr[3 : 4], 16)
+    var normalGreen = str2nr(normalColorStr[3 : 4], 16)
+    var intermediateGreen = float2nr(round(GetIntermediateValue(accentGreen, normalGreen, step, totalSteps)))
 
-    let accentGreen = str2nr(a:accentColorStr[3:4], 16)
-    let normalGreen = str2nr(a:normalColorStr[3:4], 16)
-    let intermediateGreen = float2nr(round(s:GetIntermediateValue(accentGreen, normalGreen, a:step, a:totalSteps)))
+    var accentBlue = str2nr(accentColorStr[5 : 6], 16)
+    var normalBlue = str2nr(normalColorStr[5 : 6], 16)
+    var intermediateBlue = float2nr(round(GetIntermediateValue(accentBlue, normalBlue, step, totalSteps)))
 
-    let accentBlue = str2nr(a:accentColorStr[5:6], 16)
-    let normalBlue = str2nr(a:normalColorStr[5:6], 16)
-    let intermediateBlue = float2nr(round(s:GetIntermediateValue(accentBlue, normalBlue, a:step, a:totalSteps)))
+    return '#' .. DecToHex(intermediateRed) .. DecToHex(intermediateGreen) .. DecToHex(intermediateBlue)
+enddef
 
-    return '#'.s:DecToHex(intermediateRed).s:DecToHex(intermediateGreen).s:DecToHex(intermediateBlue)
-endfunction
-
-function! footprints#declarehighlights#DeclareHighlights(groupName, accentColorStr, accentTermColorStr, totalSteps) abort
-    silent let normalBg = s:GetNormalBackgroundColor()
-    let i = 0
-    while i < a:totalSteps
-        let color = s:GetIntermediateColor(a:accentColorStr, normalBg, i, a:totalSteps)
-        silent execute 'highlight '.a:groupName.i.' guibg='.color.' ctermbg='.a:accentTermColorStr
-        let i = i + 1
+export def DeclareHighlights(groupName: string, accentColorStr: string, 
+                                              accentTermColorStr: string, totalSteps: number)
+    silent var normalBg = GetNormalBackgroundColor()
+    var i = 0
+    while i < totalSteps
+        var color = GetIntermediateColor(accentColorStr, normalBg, i, totalSteps)
+        silent execute 'highlight ' .. groupName .. i .. ' guibg=' .. color .. ' ctermbg=' .. accentTermColorStr
+        i += 1
     endwhile
-    while hlexists(a:groupName.i)
-        execute('highlight clear '.a:groupName.i)
-        let i = i + 1
+    while hlexists(groupName .. i)
+        execute('highlight clear ' .. groupName .. i)
+        i += 1
     endwhile
-endfunction
-" }}}
+enddef

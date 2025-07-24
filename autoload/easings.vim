@@ -1,30 +1,32 @@
-let s:PI = 3.141592
+vim9script
 
-function! s:Linear(x) 
-    return a:x
-endfunction
+const PI = 3.141592
 
-function! s:EaseInOutSine(x) 
-    return -(cos(s:PI * a:x) - 1) / 2
-endfunction
+def Linear(x: float): float
+    return x
+enddef
 
-function s:EaseOutCubic(x)
-    return 1 - pow(1 - a:x, 3)
-endfunction
+def EaseInOutSine(x: float): float
+    return -(cos(PI * x) - 1) / 2
+enddef
 
-function s:EaseInCubic(x)
-    return pow(a:x, 3)
-endfunction
+def EaseOutCubic(x: float): float
+    return 1 - pow(1 - x, 3)
+enddef
 
-" Get intermediate value from 0 to 1 accordinng to easing curve
-function! easings#EasingFunc(x)
+def EaseInCubic(x: float): float
+    return pow(x, 3)
+enddef
+
+# Get intermediate value from 0 to 1 according to easing curve
+export def EasingFunc(x: float): float
     if g:footprintsEasingFunction ==? 'linear'
-        return s:Linear(a:x)
+        return Linear(x)
     elseif g:footprintsEasingFunction ==? 'easein'
-        return s:EaseInCubic(a:x)
+        return EaseInCubic(x)
     elseif g:footprintsEasingFunction ==? 'easeout'
-        return s:EaseOutCubic(a:x)
+        return EaseOutCubic(x)
     endif
 
-    return s:EaseInOutSine(a:x)
-endfunction
+    return EaseInOutSine(x)
+enddef

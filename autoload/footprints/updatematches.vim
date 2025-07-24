@@ -1,30 +1,29 @@
-" {{{
-" set highlight groups to lines of code
+vim9script
 
-let s:isErrorMessageShown = 0
+import autoload './clearhighlights.vim' as clearhighlights
 
-function! footprints#updatematches#UpdateMatches(groupName, bufnr, linenumbersList, historyDepth) abort
-    let currentLine = line('.')
-    call footprints#clearhighlights#ClearHighlights(a:groupName)
+var isErrorMessageShown: bool = false
 
-    let i = 0 
-    let maxI = min([len(a:linenumbersList), a:historyDepth]) 
+export def UpdateMatches(groupName: string, bufnr: number, 
+                                      linenumbersList: list<number>, historyDepth: number)
+    var currentLine = line('.')
+    clearhighlights.ClearHighlights(groupName)
 
-    " Contentful message about https://github.com/axlebedev/footprints/issues/4
-    if (!s:isErrorMessageShown && !hlexists(a:groupName.(a:historyDepth-1)))
-        let s:isErrorMessageShown = 1
-        echo "No highlight group found for g:footprintsHistoryDepth=".g:footprintsHistoryDepth.".
-        \ You should call footprints#SetHistoryDepth(".g:footprintsHistoryDepth.")"
+    var i = 0 
+    var maxI = min([len(linenumbersList), historyDepth]) 
+
+    if !isErrorMessageShown && !hlexists(groupName .. (historyDepth - 1))
+        isErrorMessageShown = true
+        echo "No highlight group found for g:footprintsHistoryDepth=" .. g:footprintsHistoryDepth ..
+             ". You should call footprints#SetHistoryDepth(" .. g:footprintsHistoryDepth .. ")"
     endif
 
     while i < maxI
-        let lineNr = a:linenumbersList[i]
+        var lineNr = linenumbersList[i]
         if g:footprintsOnCurrentLine || lineNr != currentLine
-            let highlightGroupName = a:groupName.(maxI - i - 1)
-            " silent!: Avoid crash message https://github.com/axlebedev/footprints/issues/4
-            silent! let id = matchadd(highlightGroupName, '\%'.lineNr.'l', -100009)
+            var highlightGroupName = groupName .. (maxI - i - 1)
+            silent! var id = matchadd(highlightGroupName, '\%' .. lineNr .. 'l', -100009)
         endif
-        let i = i + 1
+        i += 1
     endwhile
-endfunction
-" }}}
+enddef

@@ -1,43 +1,42 @@
-" get list of linenumbers that should be highlighted
-let s:changesListStore = 0
-"
-function! s:GetChangesList() abort
-    let commandResult = ''
-    let savedMore = &more
-    set nomore
+vim9script
+
+var changesListStore: number = 0
+
+def GetChangesList(): string
+    var commandResult = ''
+    var savedMore = &more
+    &more = false
     redir => commandResult
-    " change line col text
     changes
     redir END
-    let &more = savedMore
+    &more = savedMore
     return commandResult
-endfunction
+enddef
 
-function! s:GetChangesLinenumbersListInner(historyDepth) abort
-    silent let changesList = s:GetChangesList()
-    let lines = split(changesList, "\n")
-    let lines = lines[1:] " remove first line with headers
-    let lines = lines[:-2] " remove last line with prompt
-    if (len(lines) > a:historyDepth)
-        let lines = lines[-a:historyDepth:] " get only needed
+def GetChangesLinenumbersListInner(historyDepth: number): list<number>
+    silent var changesList = GetChangesList()
+    var lines = split(changesList, "\n")
+    lines = lines[1 : ]  # remove first line with headers
+    lines = lines[ : -2]  # remove last line with prompt
+    if len(lines) > historyDepth
+        lines = lines[-historyDepth : ]  # get only needed
     endif
-    let lineNumbers = []
+    var lineNumbers: list<number> = []
     for line in lines
-        let lineSpl = split(line)
-        call add(lineNumbers, lineSpl[1])
+        var lineSpl = split(line)
+        add(lineNumbers, str2nr(lineSpl[1]))
     endfor
     return lineNumbers
-endfunction
+enddef
 
-function! footprints#getchangeslist#GetChangesLinenumbersList(historyDepth) abort
-    if s:changesListStore
-        return s:changesListStore
+export def GetChangesLinenumbersList(historyDepth: number): list<number>
+    if changesListStore
+        return [changesListStore]
     endif
-    return s:GetChangesLinenumbersListInner(a:historyDepth)
-endfunction
+    return GetChangesLinenumbersListInner(historyDepth)
+enddef
 
-function! footprints#getchangeslist#ClearChangesList() abort
-    let s:changesListStore = 0
-    return 1
-endfunction
-" }}}
+export def ClearChangesList(): bool
+    changesListStore = 0
+    return true
+enddef
