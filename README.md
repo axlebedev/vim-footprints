@@ -16,7 +16,7 @@ https://user-images.githubusercontent.com/3949614/158836795-809abfeb-1e6a-4af9-8
 ### INSTALLATION
 Example of installation and setting configs
 ```
-  Plug 'axlebedev/footprints'
+  Plug 'axlebedev/footprints', { 'branch': 'vim8' }
   let g:footprintsColor = '#3A3A3A'
   let g:footprintsTermColor = '208'
   let g:footprintsEasingFunction = 'linear'
