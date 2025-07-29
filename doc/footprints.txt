@@ -120,73 +120,73 @@ FootprintsCurrentLineToggle                     *FootprintsCurrentLineToggle*
 
 ===============================================================================
 API                                                          *footprints-api*
+First, import these functions:  
+`import 'footprints.vim'`
 
-footprints#Footprints()                             *footprints#Footprints()*
+footprints.Footprints()                             *footprints.Footprints()*
 
     Update footprints in current buffer >
 
-    call footprints#Footprints()
+    footprints.Footprints()
 <
 
-footprints#OnBufEnter()                             *footprints#OnBufEnter()*
+footprints.OnBufEnter()                             *footprints.OnBufEnter()*
 
     Update footprints on bufenter or 
     any other case when current window contains some older highlights >
 
-    call footprints#OnBufEnter()
+    footprints.OnBufEnter()
 <
 
-footprints#OnCursorMove()                         *footprints#OnCursorMove()*
+footprints.OnCursorMove()                         *footprints.OnCursorMove()*
 
     Update footprints when content was not changed,
     only need update current line highlight >
 
-    call footprints#OnCursorMove()
+    footprints.OnCursorMove()
 <
 
-footprints#Disable(forCurrentBuffer: bool)             *footprints#Disable()*
-footprints#Enable(forCurrentBuffer: bool)               *footprints#Enable()*
-footprints#Toggle(forCurrentBuffer: bool)               *footprints#Toggle()*
+footprints.FootprintsDisable(forCurrentBuffer: bool = false)     *footprints.FootprintsDisable()*
+footprints.FootprintsEnable(forCurrentBuffer: bool = false)       *footprints.FootprintsEnable()*
+footprints.FootprintsToggle(forCurrentBuffer: bool = false)       *footprints.FootprintsToggle()*
 
     Disable, enable or toggle footprints.
-    `forCurrentBuffer == 0` - do it globally
-    `forCurrentBuffer == 1` - do only for current buffer >
-
-    call footprints#Disable(0)
-    call footprints#Enable(1)
-    call footprints#Toggle(1)
+>
+    footprints.FootprintsDisable(false)
+    footprints.FootprintsEnable(true)
+    footprints.FootprintsToggle(true)
 <
 
-footprints#EnableCurrentLine()               *footprints#EnableCurrentLine()*
-footprints#DisableCurrentLine()             *footprints#DisableCurrentLine()*
-footprints#ToggleCurrentLine()               *footprints#ToggleCurrentLine()*
+footprints.FootprintsEnableCurrentLine()               *footprints.FootprintsEnableCurrentLine()*
+footprints.FootprintsDisableCurrentLine()             *footprints.FootprintsDisableCurrentLine()*
+footprints.FootprintsToggleCurrentLine()               *footprints.FootprintsToggleCurrentLine()*
 
     Disable, enable or toggle footprint on current line. >
 
-    call footprints#DisableCurrentLine()
-    call footprints#EnableCurrentLine()
-    call footprints#ToggleCurrentLine()
+    footprints.DisableCurrentLine()
+    footprints.EnableCurrentLine()
+    footprints.ToggleCurrentLine()
 <
 
-footprints#SetColor(color: string)                    *footprints#SetColor()*
+footprints.SetColor(color: string)                    *footprints.SetColor()*
 
     Set footprints color.
     "color" arg is string in hex format >
 
-    call footprints#SetColor("#38403b")
+    footprints.SetColor("#38403b")
 <
 
-footprints#SetTermColor(color: string)            *footprints#SetTermColor()*
+footprints.SetTermColor(color: string)            *footprints.SetTermColor()*
 
     Set footprints terminal color. >
 
-    call footprints#SetTermColor(206)
+    footprints.SetTermColor("black")
 <
 
-footprints#SetHistoryDepth(depth: number)      *footprints#SetHistoryDepth()*
+footprints.SetHistoryDepth(depth: number)      *footprints.SetHistoryDepth()*
     Set footprints history depth for current session. >
 
-    call footprints#SetHistoryDepth(50)
+    footprints.SetHistoryDepth(50)
 <
 
 ===============================================================================
@@ -195,11 +195,6 @@ CONTRIBUTIONS                                      *footprints-contributions*
 Contributions and pull requests are welcome.
 If you find a bug, or have an improvement suggestion -
 please place an issue at https://github.com/axlebedev/footprints
-
-===============================================================================
-CREDITS                                                  *footprints-credits*
-
-Copyright © 2021 Alex Lebedev. <alex@alexlebe.dev>
 
 ===============================================================================
 LICENSE                                                  *footprints-license*
